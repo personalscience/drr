@@ -1,9 +1,11 @@
 import React from 'react';
+import './App.css';
+import UserForm from './UserForm';
 
 function App() {
   return (
-    <div>
-      <h1>Hello, World!</h1>
+    <div className="App">
+      <UserForm />
     </div>
   );
 }
