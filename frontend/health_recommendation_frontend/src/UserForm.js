@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
 
 const UserForm = () => {
   const [age, setAge] = useState('');
@@ -20,10 +22,23 @@ const UserForm = () => {
   };
 
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage(`Received user information: Age: ${age}, Sex: ${sex}, Height: ${height}, Weight: ${weight}`);
     calculateBMI();
+  
+    try {
+        const response = await axios.post('http://localhost:5001/api/user_info', {
+        age,
+        sex,
+        height,
+        weight,
+        bmi,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
   
 

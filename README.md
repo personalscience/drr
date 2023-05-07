@@ -14,3 +14,32 @@ This is an initial prototype for an app that does this:
 
 ![Specific dietary recommendations](docs/images/diet_recommendations_avoid.jpg)
 
+## Install
+
+Create a project directory and download everything from this repo.
+
+You'll need Python and npm.
+
+```sh
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Run
+
+Start the backend:
+
+```sh
+cd health-recommendation-app/backend
+python app.py
+```
+
+Start the frontend:
+
+```sh
+cd health-recommendation-app/frontend/health_recommendation_frontend
+npm start
+```
+
+
