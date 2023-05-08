@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
 
 const UserForm = () => {
   const [age, setAge] = useState('');
@@ -6,12 +8,41 @@ const UserForm = () => {
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
   const [message, setMessage] = useState('');
+  const [bmi, setBmi] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setMessage(`Received user information: Age: ${age}, Sex: ${sex}, Height: ${height}, Weight: ${weight}`);
+
+  const calculateBMI = () => {
+    if (height && weight) {
+      const heightInMeters = height / 100;
+      const bmiValue = (weight / (heightInMeters * heightInMeters)).toFixed(1);
+      setBmi(bmiValue);
+    } else {
+      setBmi('');
+    }
   };
 
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage(`Received user information: Age: ${age}, Sex: ${sex}, Height: ${height}, Weight: ${weight}`);
+    calculateBMI();
+  
+    try {
+        const response = await axios.post('http://localhost:5001/api/user_info', {
+        age,
+        sex,
+        height,
+        weight,
+        bmi,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+
+  
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -37,7 +68,7 @@ const UserForm = () => {
         </label>
         <button type="submit">Submit</button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p>{message}{bmi && `, BMI: ${bmi}`}</p>}
     </div>
   );
 };
