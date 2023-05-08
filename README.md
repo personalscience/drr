@@ -23,7 +23,7 @@ You'll need Python and npm.
 ```sh
 python3 -m venv venv
 source venv/bin/activate
-pip install -r requirements.txt
+pip install -r ./backend/requirements.txt
 ```
 
 ## Run

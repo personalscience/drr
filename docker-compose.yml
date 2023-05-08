@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  frontend:
+    build: ./frontend/health_recommendation_frontend
+    ports:
+      - '3000:3000'
+
+  backend:
+    build: ./backend
+    ports:
+      - '5001:5001'
