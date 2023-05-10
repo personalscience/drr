@@ -1,0 +1,12 @@
+{
+    "json.schemas": [],
+    "python.defaultInterpreterPath": "./venv/bin/python",
+    "terminal.integrated.profiles.osx": {
+        "zsh": {
+            "path": "zsh",
+            "args": ["-l"]
+        }
+    },
+    "terminal.integrated.defaultProfile.osx": "zsh"
+    
+}
