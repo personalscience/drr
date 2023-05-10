@@ -18,13 +18,44 @@ This is an initial prototype for an app that does this:
 
 Create a project directory and download everything from this repo.
 
-You'll need Python and npm.
+
+### Frontend
+
+You'll need Python
 
 ```sh
 python3 -m venv venv
 source venv/bin/activate
 pip install -r ./backend/requirements.txt
 ```
+
+
+### Backend
+
+Requires `npm 9.5` and `node 18`
+
+```sh
+cd frontend/drr_frontend
+npm install
+```
+
+### Environments
+
+You'll need two `.env` files with your secret environment variables.
+
+In the top directory:
+```yml
+23ANDME_EMAIL=youremail@whatever.com
+23ANDME_PASSWORD=password
+OPENAI_API_KEY=somelongapikey
+```
+
+In the frontend directory, you'll need to set whatever you want as the backend port
+
+```yml
+REACT_APP_BACKEND_URL=http://127.0.0.1:5001
+```
+
 
 ## Run
 

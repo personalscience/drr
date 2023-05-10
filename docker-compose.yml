@@ -1,12 +1,22 @@
-version: '3.9'
+# docker-compose.yml
 
+version: '3.8'
 services:
-  frontend:
-    build: ./frontend/drr_frontend
-    ports:
-      - '3000:3000'
-
   backend:
     build: ./backend
     ports:
-      - '5001:5001'
+      - "5001:5001"
+    volumes:
+      - ./backend:/backend
+    environment:
+      - FLASK_RUN_HOST=0.0.0.0
+    env_file:
+      - .env
+  frontend:
+    env_file:
+      - ./frontend/drr_frontend/.env
+    build: ./frontend/drr_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/drr_frontend:/app
