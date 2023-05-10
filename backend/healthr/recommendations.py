@@ -1,6 +1,13 @@
 # healthr/recommendations.py
 import openai
 
+# calculate BMI based on height and weight
+def calculate_bmi(height, weight):
+    height_in_meters = height / 100
+    bmi = weight / (height_in_meters * height_in_meters)
+    return round(bmi, 1)
+
+
 def generate_health_recommendation(user_input):
     prompt = f"Generate health recommendation for the following user input: {user_input}"
 

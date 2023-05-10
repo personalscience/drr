@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 
 
@@ -10,36 +10,32 @@ const UserForm = () => {
   const [message, setMessage] = useState('');
   const [bmi, setBmi] = useState('');
 
-
-  const calculateBMI = () => {
-    if (height && weight) {
-      const heightInMeters = height / 100;
-      const bmiValue = (weight / (heightInMeters * heightInMeters)).toFixed(1);
-      setBmi(bmiValue);
-    } else {
-      setBmi('');
+  useEffect(() => {
+    if (bmi) {
+      setMessage(`Received user information: Age: ${age}, Sex: ${sex}, Height: ${height}, Weight: ${weight}, BMI: ${bmi}`);
     }
-  };
+  }, [bmi]);  // Run the effect whenever `bmi` changes
 
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage(`Received user information: Age: ${age}, Sex: ${sex}, Height: ${height}, Weight: ${weight}`);
-    calculateBMI();
   
     try {
-        const response = await axios.post('http://localhost:5001/api/user_info', {
-        age,
-        sex,
-        height,
-        weight,
-        bmi,
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+
+      const response = await axios.post(`${backendUrl}/api/calculate_bmi`, {
+        height: Number(height),
+        weight: Number(weight)
       });
-      console.log(response.data);
+      console.log(process.env.REACT_APP_BACKEND_URL)
+  
+      const receivedBmi = response.data.bmi;
+      setBmi(receivedBmi);
+      setMessage(`Received user information: Age: ${age}, Sex: ${sex}, Height: ${height}, Weight: ${weight}, BMI: ${receivedBmi}`);
     } catch (error) {
       console.error(error);
     }
   };
+  
   
 
   
@@ -68,7 +64,7 @@ const UserForm = () => {
         </label>
         <button type="submit">Submit</button>
       </form>
-      {message && <p>{message}{bmi && `, BMI: ${bmi}`}</p>}
+      {message && <p>{message}</p>}
     </div>
   );
 };
