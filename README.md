@@ -31,8 +31,7 @@ pip install -r ./backend/requirements.txt
 Start the backend:
 
 ```sh
-cd health-recommendation-app/backend
-python app.py
+python backend/app.py
 ```
 
 Start the frontend:
