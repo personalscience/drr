@@ -3,15 +3,13 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  width: 40vw;
   pointer-events: none;
+  transition: width 0.5s ease; /* Add a transition effect for smooth resizing */
+
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+
 
 .App-header {
   background-color: #282c34;

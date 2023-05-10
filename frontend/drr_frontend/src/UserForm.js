@@ -1,6 +1,9 @@
 import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 
+import logo from './assets/psi-testtube.svg'; // Replace 'logo.png' with your actual logo file name and extension
+
+
 
 const UserForm = () => {
   const [age, setAge] = useState('');
@@ -40,31 +43,49 @@ const UserForm = () => {
 
   
   return (
-    <div>
+    <div className="container">
+      <h1>Health Recommendations</h1>
+
       <form onSubmit={handleSubmit}>
-        <label>
-          Age:
-          <input type="number" value={age} onChange={(e) => setAge(e.target.value)} />
-        </label>
-        <label>
-          Sex:
-          <select value={sex} onChange={(e) => setSex(e.target.value)}>
-            <option value="">Select...</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </label>
-        <label>
-          Height (in cm):
-          <input type="number" value={height} onChange={(e) => setHeight(e.target.value)} />
-        </label>
-        <label>
-          Weight (in kg):
-          <input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} />
-        </label>
-        <button type="submit">Submit</button>
-      </form>
+      <div className="row">
+        <div className="col-md-6">
+          <div className="form-group">
+            <label htmlFor="age">Age:</label>
+            <input type="number" className="form-control" id="age" value={age} onChange={(e) => setAge(e.target.value)} />
+          </div>
+        </div>
+        <div className="col-md-6">
+          <div className="form-group">
+            <label htmlFor="sex">Sex:</label>
+            <select className="form-control" id="sex" value={sex} onChange={(e) => setSex(e.target.value)}>
+              <option value="">Select...</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-md-6">
+          <div className="form-group">
+            <label htmlFor="height">Height (in cm):</label>
+            <input type="number" className="form-control short-input" id="height" value={height} onChange={(e) => setHeight(e.target.value)} />
+          </div>
+        </div>
+        <div className="col-md-6">
+          <div className="form-group">
+            <label htmlFor="weight">Weight (in kg):</label>
+            <input type="number" className="form-control short-input" id="weight" value={weight} onChange={(e) => setWeight(e.target.value)} />
+          </div>
+        </div>
+      </div>
+      <button type="submit" className="btn btn-primary">Submit</button>
+    </form>
+    
       {message && <p>{message}</p>}
+      <footer>
+        <img src={logo} alt="Logo" className='App-logo' />
+      </footer>
     </div>
   );
 };
