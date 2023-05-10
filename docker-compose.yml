@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   frontend:
-    build: ./frontend/health_recommendation_frontend
+    build: ./frontend/drr_frontend
     ports:
       - '3000:3000'
 
