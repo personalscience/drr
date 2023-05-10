@@ -3,15 +3,20 @@ import axios from 'axios';
 
 import logo from './assets/psi-testtube.svg'; // Replace 'logo.png' with your actual logo file name and extension
 
+// import `useNavigate` hook from `react-router-dom`
+import { useNavigate } from 'react-router-dom';
 
-
-const UserForm = () => {
+const Input = () => {
   const [age, setAge] = useState('');
   const [sex, setSex] = useState('');
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
   const [message, setMessage] = useState('');
   const [bmi, setBmi] = useState('');
+  const [data, setData] = useState('');
+
+  const navigate = useNavigate(); // Initialize `navigate`
+
 
   useEffect(() => {
     if (bmi) {
@@ -33,10 +38,14 @@ const UserForm = () => {
   
       const receivedBmi = response.data.bmi;
       setBmi(receivedBmi);
-      setMessage(`Received user information: Age: ${age}, Sex: ${sex}, Height: ${height}, Weight: ${weight}, BMI: ${receivedBmi}`);
+      const message = `Received user information: Age: ${age}, Sex: ${sex}, Height: ${height}, Weight: ${weight}, BMI: ${receivedBmi}`;
+
+    // Pass the message to the results page
+    navigate('/results', { state: { message: message } });
     } catch (error) {
-      console.error(error);
+        console.error(error);
     }
+
   };
   
   
@@ -79,15 +88,20 @@ const UserForm = () => {
           </div>
         </div>
       </div>
+      <div className="row">
+        <div className="col-12">
+          <div className="form-group">
+          <h2 className="display-4" htmlFor="data">Data</h2>
+            <textarea className="form-control" id="data" rows="10" value={data} onChange={(e) => setData(e.target.value)} />
+          </div>
+        </div>
+      </div>
       <button type="submit" className="btn btn-primary">Submit</button>
     </form>
     
       {message && <p>{message}</p>}
-      <footer>
-        <img src={logo} alt="Logo" className='App-logo' />
-      </footer>
     </div>
   );
 };
 
-export default UserForm;
+export default Input;
