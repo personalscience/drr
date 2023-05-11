@@ -30,7 +30,7 @@ def calculate_bmi_route():
 @app.route('/recommendation', methods=['POST'])
 def recommendation():
     user_input = request.json
-    recommendation = generate_health_recommendation(user_input)
+    recommendation = generate_health_recommendation(user_input, OPENAI_API_KEY)
     return jsonify({"recommendation": recommendation})
 
 if __name__ == "__main__":
