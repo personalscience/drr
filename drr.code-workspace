@@ -16,6 +16,8 @@
 				]
 			}
 		},
-		"terminal.integrated.defaultProfile.osx": "zsh"
+		"terminal.integrated.defaultProfile.osx": "zsh",
+		"python.terminal.activateEnvInCurrentTerminal": true
+
 	}
 }
