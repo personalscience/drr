@@ -1,13 +1,17 @@
 // Home.js
 import React from 'react';
 
+import homeContent from './assets/home.json'; // Import home content
+
 const Home = () => {
+  const { title, description } = homeContent.home;
+
   return (
     <div>
-      <h2>Welcome to the Health Recommendations App!</h2>
-      <p>Select an option from the menu to get started.</p>
+      <h2>{title}</h2>
+      <p>{description.split('\n').map((line, index) => <React.Fragment key={index}>{line}<br /></React.Fragment>)}</p>
     </div>
   );
-};
 
+  }
 export default Home;

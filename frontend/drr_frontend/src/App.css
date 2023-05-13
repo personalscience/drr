@@ -34,3 +34,10 @@
     transform: rotate(360deg);
   }
 }
+
+/* App.css */
+.form-control textarea {
+  height: 100px; /* Adjust the height value according to your preference */
+
+}
+

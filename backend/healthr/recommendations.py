@@ -1,6 +1,8 @@
 # healthr/recommendations.py
 import openai
 import os
+from flask import jsonify
+
 
 # calculate BMI based on height and weight
 def calculate_bmi(height, weight):
@@ -36,7 +38,8 @@ def generate_health_recommendation(user_input, open_ai_key):
     prompt =  create_prompt(user_input)
 
 
-    # response = openai.Completion.create(
+# Uncomment this section to use the real API, but note that it will cost some money.
+    # openai_response = openai.Completion.create(
     #     engine="text-davinci-002",
     #     prompt=prompt,
     #     max_tokens=100,
@@ -47,9 +50,13 @@ def generate_health_recommendation(user_input, open_ai_key):
 
 
 
+    # response = openai_response.choices[0].text.strip()
+    response = "The most notable anamolies in the data are the high levels of triglycerides and LDL cholesterol. This may be indicative of an underlying condition such as metabolic syndrome or diabetes. The patient's high-sensitivity CRP levels may also be indicative of inflammation, which could be caused by a number of underlying conditions."
 
     height = user_input.get('height')
     weight = user_input.get('weight')
+    bmi = 0
+    recommendation = ""
 
     if height is None or weight is None:
     # Handle missing height or weight here...
@@ -57,5 +64,6 @@ def generate_health_recommendation(user_input, open_ai_key):
 
     else:
         bmi = calculate_bmi(height, weight)
-        recommendation = f"BMI = {bmi} Prompt = {prompt}" # response.choices[0].text.strip()
-    return recommendation
+        recommendation = f"BMI = {bmi} Prompt = {prompt}  AI Response = {response}" # {response.choices[0].text.strip()}"
+    
+    return jsonify({"recommendation": recommendation, "bmi": bmi, "AI Response": response})

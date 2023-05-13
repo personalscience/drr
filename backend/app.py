@@ -39,7 +39,7 @@ def calculate_bmi_route():
 def recommendation():
     user_input = request.json
     recommendation = generate_health_recommendation(user_input, OPENAI_API_KEY)
-    return jsonify({"recommendation": recommendation})
+    return recommendation
 
 if __name__ == "__main__":
     host = os.getenv('FLASK_RUN_HOST', '127.0.0.1')

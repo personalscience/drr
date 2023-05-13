@@ -11,6 +11,7 @@ const validationSchema = yup.object({
   weight: yup.number().required("Weight is required"),
   bloodData: yup.string().required("Blood Data is required"),
   familyHistoryData: yup.string().required("Family History Data is required"),
+  exerciseData: yup.string().required("Exercise is required"),
 });
 
 const Input = () => {
@@ -18,12 +19,13 @@ const Input = () => {
 
   const formik = useFormik({
     initialValues: {
-      age: '',
-      sex: '',
-      height: '',
-      weight: '',
-      bloodData: '',
-      familyHistoryData: ''
+      age: '40',
+      sex: 'male',
+      height: '180',
+      weight: '75',
+      bloodData: 'N/A',
+      familyHistoryData: 'nothing serious',
+      exerciseData: 'runs 5 miles daily'
     },
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
@@ -35,12 +37,11 @@ const Input = () => {
           weight: Number(values.weight)
         });
 
-        const receivedBmi = response.data.bmi;
 
         const recommendationResponse = await axios.post(`${backendUrl}/recommendation`, values);
 
-        const recommendation = recommendationResponse.data.recommendation;
-        const message = `Received user information: Age: ${values.age}, Sex: ${values.sex}, Height: ${values.height}, Weight: ${values.weight}, BMI: ${receivedBmi}`;
+        const recommendation = recommendationResponse.data;
+        const message = `Received user information: Age: ${values.age}, Sex: ${values.sex}, Height: ${values.height}, Weight: ${values.weight}`;
 
         navigate('/results', { state: { message: message, recommendation: recommendation } });
       } catch (error) {
@@ -86,16 +87,16 @@ const Input = () => {
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
-              <label htmlFor="height">Height:</label>
+              <label htmlFor="height">Height (cm):</label>
               <input type="number" className="form-control" id="height" {...formik.getFieldProps('height')} />
-              {formik.touched.height && formik.errors.height ? <div>{formik.errors.sex}</div> : null}
+              {formik.touched.height && formik.errors.height ? <div>{formik.errors.height}</div> : null}
             </div>
           </div>
         </div>
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
-              <label htmlFor="weight">Weight:</label>
+              <label htmlFor="weight">Weight (kg):</label>
               <input type="number" className="form-control" id="weight" {...formik.getFieldProps('weight')} />
               {formik.touched.weight && formik.errors.weight ? <div>{formik.errors.weight}</div> : null}
             </div>
@@ -108,7 +109,7 @@ const Input = () => {
             <textarea 
               className="form-control" 
               id="bloodData" 
-              rows="10" 
+              rows="2" 
               {...formik.getFieldProps('bloodData')} 
             />
             {formik.touched.bloodData && formik.errors.bloodData ? <div>{formik.errors.bloodData}</div> : null}
@@ -122,10 +123,24 @@ const Input = () => {
             <textarea 
               className="form-control" 
               id="familyHistoryData" 
-              rows="10" 
+              rows="2" 
               {...formik.getFieldProps('familyHistoryData')} 
             />
             {formik.touched.familyHistoryData && formik.errors.familyHistoryData ? <div>{formik.errors.familyHistoryData}</div> : null}
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-12">
+          <div className="form-group">
+            <label htmlFor="exerciseData">Enter Exercise</label>
+            <textarea 
+              className="form-control" 
+              id="exerciseData" 
+              rows="2" 
+              {...formik.getFieldProps('exerciseData')} 
+            />
+            {formik.touched.exerciseData && formik.errors.exerciseData ? <div>{formik.errors.exerciseData}</div> : null}
           </div>
         </div>
       </div>

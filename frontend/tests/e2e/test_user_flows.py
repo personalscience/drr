@@ -7,6 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 
 import pytest
+import re
 
 @pytest.mark.frontend
 def test_submit_form():
@@ -48,7 +49,17 @@ def test_submit_form():
     driver.execute_script("arguments[0].click();", submit_button)
 
     assert "Results" in driver.page_source
-    assert "Received user information: Age: 25, Sex: male, Height: 11, Weight: 55, BMI: 4545.5" in driver.page_source
+    div_element = driver.find_element(By.CSS_SELECTOR, '[data-testid="special-results-info"]')
+    div_text = div_element.text
+    # Extract the BMI value using regular expressions
+    bmi_match = re.search(r'BMI: ([\d.]+)', div_text)
+    extracted_bmi = bmi_match.group(1) if bmi_match else None
+
+    # Assert the extracted BMI value
+    expected_bmi = '4545.5'
+    assert extracted_bmi == expected_bmi, f"Expected BMI: {expected_bmi}, Actual BMI: {extracted_bmi}"
+
+    #assert "Received user information: Age: 25, Sex: male, Height: 11, Weight: 55, BMI: 4545.5" in driver.page_source
 
 
 
