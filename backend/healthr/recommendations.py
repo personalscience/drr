@@ -27,7 +27,8 @@ def generate_health_recommendation(user_input, open_ai_key):
     # )
 
 
-    data = user_input['data']
+    bloodData = user_input['bloodData']
+    familyHistoryData = user_input['familyHistoryData']
     age = user_input['age']
     sex = user_input['sex']
 
@@ -40,5 +41,5 @@ def generate_health_recommendation(user_input, open_ai_key):
 
     else:
         bmi = calculate_bmi(height, weight)
-        recommendation = f"BMI = {bmi} \n Data = {data}" # response.choices[0].text.strip()
+        recommendation = f"BMI = {bmi} \n Data = {bloodData}" # response.choices[0].text.strip()
     return recommendation

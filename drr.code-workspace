@@ -19,5 +19,9 @@
 		"terminal.integrated.defaultProfile.osx": "zsh",
 		"python.terminal.activateEnvInCurrentTerminal": true
 
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": []
 	}
 }

@@ -3,6 +3,9 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
+import pytest
+
+@pytest.mark.frontend
 def test_submit_form():
     driver = webdriver.Firefox()  # or whichever browser you're using
 

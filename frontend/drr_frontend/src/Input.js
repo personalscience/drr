@@ -13,7 +13,8 @@ const Input = () => {
   const [weight, setWeight] = useState('');
   const [message, setMessage] = useState('');
   const [bmi, setBmi] = useState('');
-  const [data, setData] = useState('');
+  const [bloodData, setBloodData] = useState('');
+  const [familyHistoryData, setFamilyHistoryData] = useState('');
 
   const navigate = useNavigate(); // Initialize `navigate`
 
@@ -41,7 +42,8 @@ const Input = () => {
 
       // Send data to '/recommendation' endpoint
       const recommendationResponse = await axios.post(`${backendUrl}/recommendation`, {
-        data: data,
+        bloodData: bloodData,
+        familyHistoryData: familyHistoryData,
         age: age,
         sex: sex,
         weight: weight,
@@ -49,7 +51,7 @@ const Input = () => {
 
       });
 
-      const recommendation = recommendationResponse.data;  // Extract the received recommendation
+      const recommendation = recommendationResponse.data.recommendation;  // Extract the received recommendation
       const message = `Received user information: Age: ${age}, Sex: ${sex}, Height: ${height}, Weight: ${weight}, BMI: ${receivedBmi}`;
 
       // Pass the message to the results page
@@ -103,8 +105,8 @@ const Input = () => {
         <div className="row">
           <div className="col-12">
             <div className="form-group">
-              <h2 className="display-4" htmlFor="data">Data</h2>
-              <textarea className="form-control" id="data" rows="10" value={data} onChange={(e) => setData(e.target.value)} />
+              <h2 className="display-4" htmlFor="bloodData">Enter Blood Test Results</h2>
+              <textarea className="form-control" id="bloodData" rows="10" value={bloodData} onChange={(e) => setBloodData(e.target.value)} />
             </div>
           </div>
         </div>
