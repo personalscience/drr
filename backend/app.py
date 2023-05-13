@@ -12,6 +12,14 @@ load_dotenv()
 # Get the API key from the environment variable
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
+# Read the prompt string from the text file
+with open('./assets/promptstring.txt', 'r') as file:
+    prompt_string = file.read()
+
+# Set the environment variable
+os.environ['PROMPT_STRING'] = prompt_string
+
+
 app = Flask(__name__)
 CORS(app)
 

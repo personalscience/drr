@@ -1,7 +1,10 @@
 # frontend/tests/e2e/test_user_flows.py
 
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 import pytest
 
@@ -22,9 +25,17 @@ def test_submit_form():
     input_field.clear()
     input_field.send_keys("11")
 
-    # find the submit button and click it
-    submit_button = driver.find_element(by="css selector", value=".btn.btn-primary")  # replace with the actual name of your submit button
-    submit_button.click()
+
+    submit_button = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, ".btn.btn-primary"))
+    )
+
+    # Scroll to the button:
+    driver.execute_script("arguments[0].scrollIntoView(true);", submit_button)
+    driver.execute_script("arguments[0].click();", submit_button)
+
+
+
 
     # check that the new page has the expected content
     # check that the new page has the expected header
@@ -34,4 +45,4 @@ def test_submit_form():
     assert "Received user information: Age: , Sex: , Height: 11, Weight: 55, BMI: 4545.5" in driver.page_source
 
 
-    driver.close()
+    driver.quit()

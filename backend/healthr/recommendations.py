@@ -1,5 +1,6 @@
 # healthr/recommendations.py
 import openai
+import os
 
 # calculate BMI based on height and weight
 def calculate_bmi(height, weight):
@@ -14,8 +15,26 @@ def calculate_bmi(height, weight):
     return round(bmi, 1)
 
 
+def create_prompt(user_input):
+
+    bloodData = user_input['bloodData']
+    familyHistoryData = user_input['familyHistoryData']
+    age = user_input['age']
+    sex = user_input['sex']
+
+    prompt_template = os.getenv("PROMPT_STRING")
+    if prompt_template is None:
+        raise EnvironmentError("PROMPT_STRING environment variable not set")
+
+    # Assuming user_input is a dictionary with keys 'user1', 'user2', 'user3'
+    prompt = prompt_template.format(**user_input)
+
+    return prompt
+
+
 def generate_health_recommendation(user_input, open_ai_key):
-    prompt = f"Generate health recommendation for the following user input: {user_input}"
+    prompt =  create_prompt(user_input)
+
 
     # response = openai.Completion.create(
     #     engine="text-davinci-002",
@@ -27,10 +46,7 @@ def generate_health_recommendation(user_input, open_ai_key):
     # )
 
 
-    bloodData = user_input['bloodData']
-    familyHistoryData = user_input['familyHistoryData']
-    age = user_input['age']
-    sex = user_input['sex']
+
 
     height = user_input.get('height')
     weight = user_input.get('weight')
@@ -41,5 +57,5 @@ def generate_health_recommendation(user_input, open_ai_key):
 
     else:
         bmi = calculate_bmi(height, weight)
-        recommendation = f"BMI = {bmi} \n Data = {bloodData}" # response.choices[0].text.strip()
+        recommendation = f"BMI = {bmi} Prompt = {prompt}" # response.choices[0].text.strip()
     return recommendation

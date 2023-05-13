@@ -110,6 +110,14 @@ const Input = () => {
             </div>
           </div>
         </div>
+        <div className="row">
+          <div className="col-12">
+            <div className="form-group">
+              <h2 className="display-4" htmlFor="familyHistoryData">Enter Family History</h2>
+              <textarea className="form-control" id="familyHistoryData" rows="10" value={familyHistoryData} onChange={(e) => setFamilyHistoryData(e.target.value)} />
+            </div>
+          </div>
+        </div>
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>
 
