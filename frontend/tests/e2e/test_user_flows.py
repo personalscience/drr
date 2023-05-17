@@ -16,6 +16,8 @@ def test_submit_form():
     # navigate to your app
     driver.get("http://localhost:3000/input")
 
+    
+
     age_field = driver.find_element(By.ID, "age")
     age_field.clear()
     age_field.send_keys("25")
@@ -49,6 +51,7 @@ def test_submit_form():
     driver.execute_script("arguments[0].click();", submit_button)
 
     assert "Results" in driver.page_source
+    driver.implicitly_wait(5) 
     div_element = driver.find_element(By.CSS_SELECTOR, '[data-testid="special-results-info"]')
     div_text = div_element.text
     # Extract the BMI value using regular expressions
