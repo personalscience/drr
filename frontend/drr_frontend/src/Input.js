@@ -16,19 +16,13 @@ const validationSchema = yup.object({
 });
 
 const Input = () => {
-  const { setSessionData } = useContext(AppContext);
+  const { formValues, setFormValues, setSessionData } = useContext(AppContext);
+  
   const navigate = useNavigate();
 
   const formik = useFormik({
-    initialValues: {
-      age: '40',
-      sex: 'male',
-      height: '180',
-      weight: '75',
-      bloodData: 'N/A',
-      familyHistoryData: 'nothing serious',
-      exerciseData: 'runs 5 miles daily'
-    },
+    initialValues: formValues,
+    enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
       
@@ -46,6 +40,7 @@ const Input = () => {
         const recommendation = recommendationResponse.data;
         const message = `Received user information: Age: ${values.age}, Sex: ${values.sex}, Height: ${values.height}, Weight: ${values.weight}`;
         // Save the calculated BMI and recommendation to the context
+        setFormValues(values);
         setSessionData({ message: message, recommendation: recommendation });
 
         navigate('/results', { state: { message: message, recommendation: recommendation } });
