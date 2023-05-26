@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext }  from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { AppContext } from './AppContext';
 
 const validationSchema = yup.object({
   age: yup.number().required("Age is required"),
@@ -15,6 +16,7 @@ const validationSchema = yup.object({
 });
 
 const Input = () => {
+  const { setSessionData } = useContext(AppContext);
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -29,6 +31,7 @@ const Input = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
+      
       try {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
 
@@ -42,6 +45,8 @@ const Input = () => {
 
         const recommendation = recommendationResponse.data;
         const message = `Received user information: Age: ${values.age}, Sex: ${values.sex}, Height: ${values.height}, Weight: ${values.weight}`;
+        // Save the calculated BMI and recommendation to the context
+        setSessionData({ message: message, recommendation: recommendation });
 
         navigate('/results', { state: { message: message, recommendation: recommendation } });
       } catch (error) {
