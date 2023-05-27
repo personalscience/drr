@@ -2,6 +2,8 @@ import React, { useContext} from 'react';
 import { useLocation } from 'react-router-dom';
 import { AppContext } from './AppContext';
 
+import { FormattedMessage } from 'react-intl';
+
 
 const specialResultsStyle = {
   backgroundColor: '#f0f0ff',
@@ -23,23 +25,24 @@ const Results = () => {
 
 
     const { sessionData } = useContext(AppContext);
+    const location = useLocation();
 
     if (!sessionData) {
       return (
         <div>
-          <h1>Please enter your details first</h1>
+          <h1><FormattedMessage id="results.error.enterdata" /></h1>
         </div>
       );
     };
 
-    const location = useLocation();
+  
     const { message, recommendation } = sessionData;
 
     if (!recommendation) {
       return (
         <div style={specialUserInfoStyle} data-testid="special-results-info">
-          <h1>Results</h1>
-          <p>You have to enter your inputs first</p>
+          <h1><FormattedMessage id="results.title" /></h1>
+          <p><FormattedMessage id="results.error.enterdata" /></p>
         </div>
       );
     } 
@@ -52,7 +55,7 @@ const Results = () => {
       <p>BMI: {recommendation.bmi}</p>
       </div>
       <div style={specialResultsStyle} data-testid="special-results">
-        <h2>Recommendations</h2>
+        <h2><FormattedMessage id="results.recommendations" /></h2>
         <p>AI Recommendation: {recommendation['AI Response']}</p>
       </div>
     </div>

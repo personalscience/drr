@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from './AppContext';
+import { FormattedMessage } from 'react-intl';
 
 const validationSchema = yup.object({
   age: yup.number().required("Age is required"),
@@ -68,7 +69,7 @@ const Input = () => {
 
   return (
     <div className="container">
-      <h1>Health Recommendations</h1>
+      <h1><FormattedMessage id="input.enterdata" /></h1>
       <form onSubmit={formik.handleSubmit}>
         {/* Rest of your form fields go here, using formik.getFieldProps to bind them */}
         {/* Here's an example for the "age" field: */}
