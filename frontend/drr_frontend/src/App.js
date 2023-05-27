@@ -4,6 +4,7 @@ import './App.css';
 import Input from './Input';
 import Results from './Results';
 import Navbar from './Navigation';
+import Settings from './Settings';
 import Home from './Home';
 import Footer from './Footer'; // Import Footer
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/input" element={<Input />} />
           <Route path="/results" element={<Results />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
         </AppProvider>
         <Footer /> 

@@ -16,9 +16,14 @@ const validationSchema = yup.object({
 });
 
 const Input = () => {
-  const { formValues, setFormValues, setSessionData } = useContext(AppContext);
+  const { unitSystem, formValues, setFormValues, setSessionData } = useContext(AppContext);
   
   const navigate = useNavigate();
+
+  const heightLabel = unitSystem === 'metric' ? 'Height (cm):' : 'Height (in):';
+  const weightLabel = unitSystem === 'metric' ? 'Weight (kg):' : 'Weight (lbs):';
+
+
 
   const formik = useFormik({
     initialValues: formValues,
@@ -29,9 +34,18 @@ const Input = () => {
       try {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
 
+        let height = Number(values.height);
+        let weight = Number(values.weight);
+
+        // If the user's settings are set to imperial units, convert to metric
+        if (unitSystem === 'imperial') {
+          height /= 39.37; // Convert inches to centimeters
+          weight /= 2.205; // Convert pounds to kilograms
+        }
+
         const response = await axios.post(`${backendUrl}/api/calculate_bmi`, {
-          height: Number(values.height),
-          weight: Number(values.weight)
+          height,
+          weight
         });
 
 
@@ -87,7 +101,7 @@ const Input = () => {
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
-              <label htmlFor="height">Height (cm):</label>
+              <label htmlFor="height">{ heightLabel}</label>
               <input type="number" className="form-control" id="height" {...formik.getFieldProps('height')} />
               {formik.touched.height && formik.errors.height ? <div>{formik.errors.height}</div> : null}
             </div>
@@ -96,7 +110,7 @@ const Input = () => {
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
-              <label htmlFor="weight">Weight (kg):</label>
+              <label htmlFor="weight">{ weightLabel}</label>
               <input type="number" className="form-control" id="weight" {...formik.getFieldProps('weight')} />
               {formik.touched.weight && formik.errors.weight ? <div>{formik.errors.weight}</div> : null}
             </div>

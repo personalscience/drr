@@ -6,9 +6,10 @@ export const AppContext = React.createContext();
 export const AppProvider = ({ children }) => {
   const [sessionData, setSessionData] = React.useState(null);
   const [formValues, setFormValues] = useState(initialState.formValues);
+  const [unitSystem, setUnitSystem] = useState('metric');
 
   return (
-    <AppContext.Provider value={{formValues, setFormValues, sessionData, setSessionData }}>
+    <AppContext.Provider value={{unitSystem, setUnitSystem, formValues, setFormValues, sessionData, setSessionData }}>
       {children}
     </AppContext.Provider>
   );
