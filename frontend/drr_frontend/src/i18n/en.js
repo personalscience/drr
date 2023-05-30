@@ -13,7 +13,10 @@ const messages_en = {
     'settings.title': "Settings",
     'settings.system': "Unit System",
     "settings.system.metric": "Metric",
-    "settings.system.imperial": "Imperial"
+    "settings.system.imperial": "Imperial",
+
+    'diet.title': "Diet",
+    "diet.error": "You have to enter your data first"
 
       
     // More strings...
