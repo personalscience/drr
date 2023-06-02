@@ -5,6 +5,18 @@ import json
 from flask import jsonify
 
 
+# calculate BMR (all units are metric)
+def calculate_bmr(weight, height, age, gender):
+    if gender == "male":
+        bmr = 66.5 + (13.75 * weight) + (5 * height) - (6.75 * age)
+    elif gender == "female":
+        bmr = 655 + (9.56 * weight) + (1.85 * height) - (4.68 * age)
+    else:
+        raise ValueError("Invalid gender. Please enter 'male' or 'female'.")
+
+    return bmr
+
+
 # calculate BMI based on height and weight
 def calculate_bmi(height, weight):
     try:
