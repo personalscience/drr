@@ -1,0 +1,38 @@
+You and I are medical doctors discussing one of my patients. He's a 60-year-old male with no family history of heart disease, diabetes, or dementia. Excellent health, takes 60-90 minute intensive walks daily (300 ft climb), no smoker, occasional light drinker, no medications or supplements.  Healthy omnivore diet.  Complains about shortness of breath when climbing stairs quickly.  Stress ECG findings: No chest pain or ECG changes of ischemia noted. Exercise time: 12:37 min on Bruce protocol. Duke treadmill score = +12, which predicts a low risk for future adverse cardiac events at 5 years.
+Arrhythmias: No significant arrhythmias.   Blood test results are `
+
+		25-Apr	6-Mar	10-Nov
+Exported: May 03 2023	In Range	SiPhox Health Kit	SiPhox Health Kit	SiPhox Health Kit
+Inflammation				
+High-Sensitivity CRP	0 - 1.5 (mg/L)	0.99	1.21	1.19
+Homocysteine (HCY)	5 - 15 (umol/L)	10	16.15	4.65
+Ferritin	20 - 150 (ng/mL)	13.9	14.8	7.7
+25-(OH) Vitamin D	25 - 100 (ng/mL)	37.7	58.42	47.48
+Metabolic Fitness				
+% Hemoglobin A1C	3.8 - 5.9 (%)	5.5	5.6	5.4
+Insulin	1.9 - 15 (uIU/mL)	4.41	7.22	8.84
+Triglycerides:HDL Ratio	0 - 3.5	1.96	1.28	1.01
+25-(OH) Vitamin D	25 - 100 (ng/mL)	37.7	58.42	47.48
+Balance				
+Morning Cortisol	6.7 - 19.4 (ug/dL)	20.6	13.5	3.8
+Dehydroepiandrosterone Sulfate (DHEA-S)	70 - 310 (ug/dL)	86	74	82
+Testosterone, Total (Males)	1.9 - 12 (ng/mL)	6.73	7.32	7.02
+Folate	2.7 - 17 (ng/mL)	-	-	8.3
+Thyroid Stimulating Hormone (TSH)	0.45 - 5.33 (uIU/mL)	4.04	2.81	-
+Cardiovascular				
+Apolipoprotein A1 (APOA1)	100 - 200 (mg/dL)	190	199	161
+Apolipoprotein B (APOB)	40 - 155 (mg/dL)	183	226	184
+HDL Cholesterol	23 - 92 (mg/dL)	65	69	66
+LDL Cholesterol	0 - 130 (mg/dL)	219	255	242
+Triglycerides	0 - 150 (mg/dL)	128	89	67
+Total Cholesterol	40 - 200 (mg/dL)	309	341	321
+`
+
+You will return a JSON string that has the following keys and values
+
+"Summary": "a 500-word summary of the patient's overall Health",
+"Blood": "500 word describing any anamolies and trends in the data if applicable.  If there is nothing notable, just return 'all ranges appear to be normal',
+"Genes": "a list of key-value pairs that includes SNP (RS value), Description (less than 256 chars), URL to 23andme if applicable",
+"Diet": "a dietary recommendation Suggest overall macronutrient percentages, including fat, protein, carbohydrate, plus fiber and sugar. return a list of key-value pairs recommended daily percentages of each category, a brief reason for why your recommendation is different or specific to this individual compared to average, and a few suggested foods that conform to the recommendations. 
+
+

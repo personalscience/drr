@@ -56,7 +56,7 @@ const Results = () => {
       </div>
       <div style={specialResultsStyle} data-testid="special-results">
         <h2><FormattedMessage id="results.recommendations" /></h2>
-        <p>AI Recommendation: {recommendation['AI Response']}</p>
+        <p>AI Recommendation: {recommendation['AI Response']?.Blood}</p>
       </div>
     </div>
   );

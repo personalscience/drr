@@ -1,6 +1,7 @@
 # healthr/recommendations.py
 import openai
 import os
+import json
 from flask import jsonify
 
 
@@ -48,10 +49,12 @@ def generate_health_recommendation(user_input, open_ai_key):
     #     temperature=0.8,
     # )
 
-
+    # Open and read the JSON file
+    with open(os.path.join(os.getcwd(), 'assets', 'sampleResponse.json'), 'r') as f:
+        response = json.load(f)
 
     # response = openai_response.choices[0].text.strip()
-    response = "The most notable anamolies in the data are the high levels of triglycerides and LDL cholesterol. This may be indicative of an underlying condition such as metabolic syndrome or diabetes. The patient's high-sensitivity CRP levels may also be indicative of inflammation, which could be caused by a number of underlying conditions."
+   # response = "The most notable anamolies in the data are the high levels of triglycerides and LDL cholesterol. This may be indicative of an underlying condition such as metabolic syndrome or diabetes. The patient's high-sensitivity CRP levels may also be indicative of inflammation, which could be caused by a number of underlying conditions."
 
     height = user_input.get('height')
     weight = user_input.get('weight')

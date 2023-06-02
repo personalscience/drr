@@ -49,16 +49,37 @@ const Diet = () => {
 
   return (
     <div>
-      <div style={specialUserInfoStyle} data-testid="special-results-info">
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Percentage</th>
+            <th>Reason</th>
+            <th>Suggested Foods</th>
+          </tr>
+        </thead>
+        <tbody>
+          {recommendation['AI Response']?.Diet?.map((item, index) => (
+            <tr key={index}>
+              <td>{item.Category}</td>
+              <td>{item.Percentage}</td>
+              <td>{item.Reason}</td>
+              <td>{item['Suggested foods'].join(', ')}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* <div style={specialUserInfoStyle} data-testid="special-results-info">
         <h1>Results</h1>
-      <p>{message}</p>
-      <p>BMI: {recommendation.bmi}</p>
+        <p>{message}</p>
+        <p>BMI: {recommendation.bmi}</p>
       </div>
       <div style={specialResultsStyle} data-testid="special-results">
         <h2><FormattedMessage id="results.recommendations" /></h2>
         <p>AI Recommendation: {recommendation['AI Response']}</p>
-      </div>
-    </div>
+      </div> */}
+    </div >
   );
 };
 

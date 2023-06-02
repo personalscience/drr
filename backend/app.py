@@ -13,7 +13,7 @@ load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Read the prompt string from the text file
-with open('./assets/promptstring.txt', 'r') as file:
+with open('./assets/promptstring2.txt', 'r') as file:
     prompt_string = file.read()
 
 # Set the environment variable
