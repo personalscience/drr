@@ -1,4 +1,6 @@
 import React, { useContext} from 'react';
+import { Table } from 'react-bootstrap';
+
 import { useLocation } from 'react-router-dom';
 import { AppContext } from './AppContext';
 
@@ -49,7 +51,7 @@ const Diet = () => {
 
   return (
     <div>
-      <table>
+      <Table striped bordered hover>
         <thead>
           <tr>
             <th>Category</th>
@@ -68,7 +70,7 @@ const Diet = () => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
 
       {/* <div style={specialUserInfoStyle} data-testid="special-results-info">
         <h1>Results</h1>
