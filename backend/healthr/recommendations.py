@@ -18,6 +18,7 @@ def calculate_bmr(weight, height, age, gender):
 
 
 # calculate BMI based on height and weight
+# see https://www.healthline.com/nutrition/how-many-calories-per-day#calculator
 def calculate_bmi(height, weight):
     try:
         height = float(height)
@@ -70,6 +71,7 @@ def generate_health_recommendation(user_input, open_ai_key):
 
     height = user_input.get('height')
     weight = user_input.get('weight')
+    bloodData = user_input.get('bloodData')
     bmi = 0
     recommendation = ""
 
@@ -81,4 +83,4 @@ def generate_health_recommendation(user_input, open_ai_key):
         bmi = calculate_bmi(height, weight)
         recommendation = f"BMI = {bmi} Prompt = {prompt}  AI Response = {response}" # {response.choices[0].text.strip()}"
     
-    return jsonify({"recommendation": recommendation, "bmi": bmi, "AI Response": response})
+    return jsonify({"recommendation": recommendation, "bmi": bmi, "Blood": bloodData, "AI Response": response})

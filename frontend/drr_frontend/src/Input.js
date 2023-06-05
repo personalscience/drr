@@ -38,22 +38,31 @@ const Input = () => {
         let height = Number(values.height);
         let weight = Number(values.weight);
 
-        // If the user's settings are set to imperial units, convert to metric
-        if (unitSystem === 'imperial') {
-          height /= 39.37; // Convert inches to centimeters
-          weight /= 2.205; // Convert pounds to kilograms
-        }
+        let bloodData = String(values.bloodData)
 
-        const response = await axios.post(`${backendUrl}/api/calculate_bmi`, {
-          height,
-          weight
-        });
+        // Define the unit system and its corresponding units
+        const unitSystemConfig = {
+          metric: { height: 'centimeters', weight: 'kilograms' },
+          imperial: { height: 'inches', weight: 'pounds' }
+        };
+        const { height: heightUnit, weight: weightUnit } = unitSystemConfig[unitSystem];
+
+        // Convert height and weight to metric if the unit system is set to imperial
+        if (unitSystem === 'imperial') {
+          if (heightUnit === 'inches') {
+            height = height * 2.54; // Convert inches to centimeters
+          }
+
+          if (weightUnit === 'pounds') {
+            weight = weight * 0.453592; // Convert pounds to kilograms
+          }
+        }
 
 
         const recommendationResponse = await axios.post(`${backendUrl}/recommendation`, values);
 
         const recommendation = recommendationResponse.data;
-        const message = `Received user information: Age: ${values.age}, Sex: ${values.sex}, Height: ${values.height}, Weight: ${values.weight}`;
+        const message = `Received user information: Age: ${values.age}, Sex: ${values.sex},\n Height: ${values.height}, Weight: ${values.weight}`;
         // Save the calculated BMI and recommendation to the context
         setFormValues(values);
         setSessionData({ message: message, recommendation: recommendation });
@@ -90,29 +99,39 @@ const Input = () => {
               className="form-control"
               id="sex"
               {...formik.getFieldProps('sex')}
-            >
-              <option value="">Select...</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-            {formik.touched.sex && formik.errors.sex ? <div>{formik.errors.sex}</div> : null}
-          </div>
-        </div>
-      </div>
-        <div className="row">
-          <div className="col-md-6">
-            <div className="form-group">
-              <label htmlFor="height">{ heightLabel}</label>
-              <input type="number" className="form-control" id="height" {...formik.getFieldProps('height')} />
-              {formik.touched.height && formik.errors.height ? <div>{formik.errors.height}</div> : null}
+              >
+                <option value="">Select...</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+              {formik.touched.sex && formik.errors.sex ? <div>{formik.errors.sex}</div> : null}
             </div>
           </div>
         </div>
         <div className="row">
+        {/* // Height input field */}
+          <div className="form-group">
+            <label htmlFor="height">{heightLabel}</label>
+            <div className="input-group">
+              <input type="number" className="form-control" id="height" {...formik.getFieldProps('height')} />
+              <div className="input-group-append">
+                <span className="input-group-text">{formik.values.heightUnit}</span>
+              </div>
+            </div>
+            {formik.touched.height && formik.errors.height ? <div>{formik.errors.height}</div> : null}
+          </div>
+        </div>
+        <div className="row">
           <div className="col-md-6">
+          {/* // Weight input field */}
             <div className="form-group">
-              <label htmlFor="weight">{ weightLabel}</label>
-              <input type="number" className="form-control" id="weight" {...formik.getFieldProps('weight')} />
+              <label htmlFor="weight">{weightLabel}</label>
+              <div className="input-group">
+                <input type="number" className="form-control" id="weight" {...formik.getFieldProps('weight')} />
+                <div className="input-group-append">
+                  <span className="input-group-text">{formik.values.weightUnit}</span>
+                </div>
+              </div>
               {formik.touched.weight && formik.errors.weight ? <div>{formik.errors.weight}</div> : null}
             </div>
           </div>

@@ -54,3 +54,30 @@ def test_calculate_bmr():
     # Call the function and assert the result
     assert calculate_bmr(weight, height, age, gender) == pytest.approx(expected_bmr, abs=0.1)
 
+from healthr.bloodtest import find_biomarkers  # adjust this import to fit your actual module structure
+
+def test_find_biomarkers():
+    # Test data, replace with a real data sample that suits your case
+    test_data = [
+        {
+            "simpleLabel": "Test Biomarker",
+            "label": "Test Label",
+            "parent": ["Test Parent"],
+            "weight": {"Test Category": 0.5},
+            "targetType": "Test Type",
+            "nonNumerical": False,
+            "result": 100,
+            "historic": [{"result": 100, "timestamp": "2022-11-10T16:52:59.527Z"}],
+            "unit": "Test Unit",
+            "ranges": {"optimal": [90, 110], "inRange": [80, 120], "outOfRange": [0, 160]},
+            "otherScores": [{"comparison": "test score", "score": None}],
+            "infoLink": "https://test.com/pages/test"
+        }
+        # Add more test data objects if needed
+    ]
+
+    # Expected output (a list of dictionaries)
+    expected_output = [{"Biomarker": "Test Biomarker", "Value": 100}]
+
+    assert find_biomarkers(test_data) == expected_output
+

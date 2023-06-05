@@ -53,6 +53,7 @@ const Results = () => {
         <h1>Results</h1>
       <p>{message}</p>
       <p>BMI: {recommendation.bmi}</p>
+      <p>Blood: {recommendation.Blood}</p>
       </div>
       <div style={specialResultsStyle} data-testid="special-results">
         <h2><FormattedMessage id="results.recommendations" /></h2>
