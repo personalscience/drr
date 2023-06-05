@@ -2,8 +2,7 @@ You and I are medical doctors discussing one of my patients. He's a {age}-year-o
 
 You will return a JSON string that has the following keys and values
 
-{"Summary": "a 500-word summary of the patient's overall Health",
+"Summary": "a 500-word summary of the patient's overall Health",
 "Blood": "500 word describing any anamolies and trends in the data if applicable.  If there is nothing notable, just return 'all ranges appear to be normal',
 "Genes": "a list of key-value pairs that includes SNP (RS value), Description (less than 256 chars), URL to 23andme if applicable",
-"Diet": "a dietary recommendation Suggest overall macronutrient percentages, including fat, protein, carbohydrate, plus fiber and sugar. return a list of key-value pairs recommended daily percentages of each category, a brief reason for why your recommendation is different or specific to this individual compared to average, and a few suggested foods that conform to the recommendations. }
-
+"Diet": "a dietary recommendation Suggest overall macronutrient percentages, including fat, protein, carbohydrate, plus fiber and sugar. return a list of key-value pairs recommended daily percentages of each category, a brief reason for why your recommendation is different or specific to this individual compared to average, and a few suggested foods that conform to the recommendations. 

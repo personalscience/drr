@@ -19,7 +19,7 @@ def find_keys_in_dict(dat: Any, keys: Set[str]) -> List[Dict[str, Any]]:
     return matches
 
 # Given a JSON object, return all the biomarkers and their values
-def find_biomarkers(dat: Any) -> str:
+def find_biomarkers(dat: Any) -> json:
     keys = {"simpleLabel", "label", "parent", "weight", "targetType", "nonNumerical", "result", "historic", "unit", "ranges", "otherScores", "infoLink"}
     matches = find_keys_in_dict(dat, keys)
     

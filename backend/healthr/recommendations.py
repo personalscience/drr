@@ -4,6 +4,9 @@ import os
 import json
 from flask import jsonify
 
+from healthr.bloodtest import find_biomarkers
+from healthr.siphox_calls import get_customer_report
+
 
 # calculate BMR (all units are metric)
 def calculate_bmr(weight, height, age, gender):
@@ -31,12 +34,18 @@ def calculate_bmi(height, weight):
     return round(bmi, 1)
 
 
-def create_prompt(user_input):
+# user_input is from formik
+# const validationSchema = yup.object({
+#   age: yup.number().required("Age is required"),
+#   sex: yup.string().required("Sex is required"),
+#   height: yup.number().required("Height is required"),
+#   weight: yup.number().required("Weight is required"),
+#   bloodData: yup.string().required("Blood Data is required"),
+#   familyHistoryData: yup.string().required("Family History Data is required"),
+#   exerciseData: yup.string().required("Exercise is required"),
+# });
 
-    bloodData = user_input['bloodData']
-    familyHistoryData = user_input['familyHistoryData']
-    age = user_input['age']
-    sex = user_input['sex']
+def create_prompt(user_input):
 
     prompt_template = os.getenv("PROMPT_STRING")
     if prompt_template is None:
@@ -72,6 +81,19 @@ def generate_health_recommendation(user_input, open_ai_key):
     height = user_input.get('height')
     weight = user_input.get('weight')
     bloodData = user_input.get('bloodData')
+ #   bloodData = "more data from blood"
+
+
+## The following section is hardcoded and must be fixed.
+    data = get_customer_report("646b934fae46dcbd6be92385", "SPOTR09QQH")
+
+    biomarkers = find_biomarkers(data)
+    bloodData = ""
+    for item in biomarkers:
+        bloodData = bloodData + f'{item["Biomarker"]}, {item["Value"]}\n'
+###
+
+
     bmi = 0
     recommendation = ""
 
