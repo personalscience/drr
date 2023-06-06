@@ -31,7 +31,7 @@ const Input = () => {
     enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      
+
       try {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
 
@@ -75,6 +75,33 @@ const Input = () => {
       }
     },
   });
+  // The new handleSiphoxFill function:
+  const handleSiphoxFill = async () => {
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+      const response = await fetch(`${backendUrl}/siphox`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          // any required body content
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+
+      // Adjust this according to the structure of your API response
+      const bloodData = data.bloodData; 
+
+      formik.setFieldValue('bloodData', bloodData);
+    } catch (error) {
+      formik.setFieldError('bloodData', error.message);
+    }
+  };
 
   return (
     <div className="container">
@@ -137,19 +164,20 @@ const Input = () => {
           </div>
         </div>
         <div className="row">
-        <div className="col-12">
-          <div className="form-group">
-            <label htmlFor="bloodData">Enter Blood Test Results</label>
-            <textarea 
-              className="form-control" 
-              id="bloodData" 
-              rows="2" 
-              {...formik.getFieldProps('bloodData')} 
-            />
-            {formik.touched.bloodData && formik.errors.bloodData ? <div>{formik.errors.bloodData}</div> : null}
+          <div className="col-12">
+            <div className="form-group">
+              <label htmlFor="bloodData">Enter Blood Test Results</label>
+              <textarea
+                className="form-control"
+                id="bloodData"
+                rows="2"
+                {...formik.getFieldProps('bloodData')}
+              />
+              <button type="button" onClick={handleSiphoxFill}>Siphox Fill</button>
+              {formik.touched.bloodData && formik.errors.bloodData ? <div>{formik.errors.bloodData}</div> : null}
+            </div>
           </div>
         </div>
-      </div>
       <div className="row">
         <div className="col-12">
           <div className="form-group">

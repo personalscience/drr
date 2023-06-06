@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from healthr.recommendations import generate_health_recommendation, calculate_bmi
-
+from healthr.bloodtest import find_biomarkers
+from healthr.siphox_calls import get_customer_report
 
 from dotenv import load_dotenv
 import os
@@ -28,6 +29,17 @@ def user_info():
     data = request.json
     # Perform necessary processing or saving of data
     return jsonify({"status": "success", "message": "Data received"}), 200
+
+@app.route('/api/siphox_blood_data', methods=['POST'])
+def get_siphox_blood_data():
+    data = get_customer_report("646b934fae46dcbd6be92385", "SPOTR09QQH")
+
+    biomarkers = find_biomarkers(data)
+    bloodData = ""
+    for item in biomarkers:
+        bloodData = bloodData + f'{item["Biomarker"]}, {item["Value"]}\n'
+
+    return bloodData
 
 @app.route('/api/calculate_bmi', methods=['POST'])
 def calculate_bmi_route():
