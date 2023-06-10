@@ -1,4 +1,4 @@
-import React, { useContext} from 'react';
+import React, { useState, useEffect, useContext} from 'react';
 import { Table } from 'react-bootstrap';
 
 import { useLocation } from 'react-router-dom';
@@ -22,32 +22,40 @@ const specialUserInfoStyle = {
 };
 
 
-
 const Diet = () => {
+  const { sessionData } = useContext(AppContext);
+  const location = useLocation();
+  const [aiResponse, setAIResponse] = useState(null); // Add this line
 
+  useEffect(() => {
+    if (sessionData?.recommendation) {
+      try {
+        const parsedResponse = JSON.parse(sessionData.recommendation['AI Response']);
+        setAIResponse(parsedResponse);
+      } catch (error) {
+        console.error("Invalid JSON string:", error);
+      }
+    }
+  }, [sessionData]);
 
-    const { sessionData } = useContext(AppContext);
-    const location = useLocation();
+  if (!sessionData) {
+    return (
+      <div>
+        <h1><FormattedMessage id="diet.error" /></h1>
+      </div>
+    );
+  };
 
-    if (!sessionData) {
-      return (
-        <div>
-          <h1><FormattedMessage id="diet.error" /></h1>
-        </div>
-      );
-    };
+  const { message, recommendation } = sessionData;
 
-  
-    const { message, recommendation } = sessionData;
-
-    if (!recommendation) {
-      return (
-        <div style={specialUserInfoStyle} data-testid="special-results-info">
-          <h1><FormattedMessage id="diet.title" /></h1>
-          <p><FormattedMessage id="diet.error" /></p>
-        </div>
-      );
-    } 
+  if (!recommendation) {
+    return (
+      <div style={specialUserInfoStyle} data-testid="special-results-info">
+      <h1><FormattedMessage id="diet.title" /></h1>
+      <p><FormattedMessage id="diet.error" /></p>
+    </div>
+    ); 
+  }
 
   return (
     <div>
@@ -61,26 +69,17 @@ const Diet = () => {
           </tr>
         </thead>
         <tbody>
-          {recommendation['AI Response']?.Diet?.map((item, index) => (
+          
+          {Array.isArray(aiResponse?.Diet) && aiResponse?.Diet?.map((item, index) => (
             <tr key={index}>
               <td>{item.Category}</td>
-              <td>{item.Percentage}</td>
+              <td>{item["Recommended Percentage"]}</td> {/* Update this line */}
               <td>{item.Reason}</td>
-              <td>{item['Suggested foods'].join(', ')}</td>
+              <td>{item['Suggested Foods'].join(', ')}</td> {/* Update this line */}
             </tr>
           ))}
         </tbody>
       </Table>
-
-      {/* <div style={specialUserInfoStyle} data-testid="special-results-info">
-        <h1>Results</h1>
-        <p>{message}</p>
-        <p>BMI: {recommendation.bmi}</p>
-      </div>
-      <div style={specialResultsStyle} data-testid="special-results">
-        <h2><FormattedMessage id="results.recommendations" /></h2>
-        <p>AI Recommendation: {recommendation['AI Response']}</p>
-      </div> */}
     </div >
   );
 };
