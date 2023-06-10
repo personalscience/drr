@@ -53,6 +53,12 @@ def recommendation():
     recommendation = generate_health_recommendation(user_input, OPENAI_API_KEY)
     return recommendation
 
+@app.route("/webhooks/rest/webhook", methods=['POST'])
+def converse():
+    user_input = request.json
+    print(user_input)
+    return jsonify({"text": user_input["message"], "recipient_id": "user"})
+
 if __name__ == "__main__":
     host = os.getenv('FLASK_RUN_HOST', '127.0.0.1')
-    app.run(debug=True, host=host, port=5001)
+    app.run(debug=True, host=host, port=5005)
