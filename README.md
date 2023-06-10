@@ -68,7 +68,7 @@ python backend/app.py
 Start the frontend:
 
 ```sh
-cd health-recommendation-app/frontend/health_recommendation_frontend
+cd frontend/drr_frontend
 npm start
 ```
 
