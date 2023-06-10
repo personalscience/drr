@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './drr_ai_logo.svg'; // Replace 'logo.png' with your actual logo file name and extension
+import logo from './assets/psi-testtube.svg'; // Replace 'logo.png' with your actual logo file name and extension
 
 const Footer = () => {
   return (
