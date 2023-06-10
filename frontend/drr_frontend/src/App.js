@@ -20,7 +20,7 @@ import { Widget, addResponseMessage } from 'react-chat-widget';
 
 import 'react-chat-widget/lib/styles.css';
 
-import logo from './logo.svg';
+import logo from './drr_ai_logo.svg';
 
 
 const locale = navigator.language || "en-US";
