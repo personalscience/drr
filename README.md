@@ -53,7 +53,7 @@ OPENAI_API_KEY=somelongapikey
 In the frontend directory, you'll need to set whatever you want as the backend port
 
 ```yml
-REACT_APP_BACKEND_URL=http://127.0.0.1:5001
+REACT_APP_BACKEND_URL=http://127.0.0.1:5005
 ```
 
 
@@ -68,7 +68,7 @@ python backend/app.py
 Start the frontend:
 
 ```sh
-cd health-recommendation-app/frontend/health_recommendation_frontend
+cd frontend/drr_frontend
 npm start
 ```
 

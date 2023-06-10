@@ -1,5 +1,5 @@
 // App.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { AppProvider } from './AppContext';
@@ -16,6 +16,12 @@ import Settings from './Settings';
 import Home from './Home';
 import Footer from './Footer'; // Import Footer
 
+import { Widget, addResponseMessage } from 'react-chat-widget';
+
+import 'react-chat-widget/lib/styles.css';
+
+import logo from './logo.svg';
+
 
 const locale = navigator.language || "en-US";
 //const locale = "zh-CN"; 
@@ -23,8 +29,35 @@ const locale = navigator.language || "en-US";
 
 function App() {
   console.log(messages, locale)
+    useEffect(() => {
+    addResponseMessage('Do you have any questions about your plan?');
+  }, []);
+
+  const handleNewUserMessage = (newMessage) => {
+    fetch("http://localhost:5005/webhooks/rest/webhook", {
+        method: "POST",
+        body: JSON.stringify({message: newMessage}),
+        headers: { "Content-type": "application/json; charset=UTF-8" }
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data)
+        addResponseMessage(data.text);
+        addResponseMessage(data.updated_recommendation);
+    })
+    .catch((error) => {
+    console.log(error)
+    })
+  };
+
   return (
     <div className="App">
+      <Widget
+          handleNewUserMessage={handleNewUserMessage}
+          profileAvatar={logo}
+          title="Ask Dr"
+          subtitle="Share your goals in your own words"
+      />
       <AppProvider>
         <IntlProvider locale={locale} messages={messages[locale]}>
           <Router>
