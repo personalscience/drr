@@ -3,13 +3,20 @@ import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 
 import { FormattedMessage } from 'react-intl';
-
+import logo from './drr_ai_logo.svg';
 
 const Navigation = () => {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand as={Link} to="/">Health App</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">
+        <img
+            alt="Health App"
+            src={logo}
+            width="60"
+            className="d-inline-block align-top"
+          />{' '}
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
