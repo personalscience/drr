@@ -1,14 +1,17 @@
 # healthr/recommendations.py
+from typing import List, Dict
+
 import openai
 import os
 import json
 from flask import jsonify
-
+from healthr.prompts import DEFAULT_PROMPT, UPDATE_PROMPT, CONVERSE_PROMPT
 from healthr.bloodtest import find_biomarkers
 from healthr.siphox_calls import get_customer_report
 
 
 # calculate BMR (all units are metric)
+
 def calculate_bmr(weight, height, age, gender):
     if gender == "male":
         bmr = 66.5 + (13.75 * weight) + (5 * height) - (6.75 * age)
@@ -47,62 +50,59 @@ def calculate_bmi(height, weight):
 
 def create_prompt(user_input):
 
-    prompt_template = os.getenv("PROMPT_STRING")
-    if prompt_template is None:
-        raise EnvironmentError("PROMPT_STRING environment variable not set")
-
     # Assuming user_input is a dictionary with keys 'user1', 'user2', 'user3'
-    prompt = prompt_template.format(**user_input)
+    print(user_input)
+    prompt = DEFAULT_PROMPT.format(**user_input)
 
     return prompt
 
 
-def generate_health_recommendation(user_input, open_ai_key):
-    prompt =  create_prompt(user_input)
+def retrieve_gpt_response(chat_ml_input: List[Dict[str, str]]) -> str:
+    openai_response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=chat_ml_input
+    )
+    return openai_response.choices[0].message.content.strip()
 
 
-# Uncomment this section to use the real API, but note that it will cost some money.
-    # openai_response = openai.Completion.create(
-    #     engine="text-davinci-002",
-    #     prompt=prompt,
-    #     max_tokens=100,
-    #     n=1,
-    #     stop=None,
-    #     temperature=0.8,
-    # )
-
-    # Open and read the JSON file
-    with open(os.path.join(os.getcwd(), 'assets', 'sampleResponse.json'), 'r') as f:
-        response = json.load(f)
-
-    # response = openai_response.choices[0].text.strip()
-   # response = "The most notable anamolies in the data are the high levels of triglycerides and LDL cholesterol. This may be indicative of an underlying condition such as metabolic syndrome or diabetes. The patient's high-sensitivity CRP levels may also be indicative of inflammation, which could be caused by a number of underlying conditions."
-
-    height = user_input.get('height')
-    weight = user_input.get('weight')
-    bloodData = user_input.get('bloodData')
- #   bloodData = "more data from blood"
-
-
-## The following section is hardcoded and must be fixed.
+def get_siphonix_report():
+    ## The following section is hardcoded and must be fixed.
     data = get_customer_report("646b934fae46dcbd6be92385", "SPOTR09QQH")
 
     biomarkers = find_biomarkers(data)
     bloodData = ""
     for item in biomarkers:
         bloodData = bloodData + f'{item["Biomarker"]}, {item["Value"]}\n'
-###
+    return bloodData
 
 
-    bmi = 0
-    recommendation = ""
+def chat(user_input, chat_history, current_health_plan):
+    chat_ml_obj = [{"role": "system", "content": CONVERSE_PROMPT.format(health_plan=current_health_plan, user_input=user_input)}]
+    chat_ml_obj.extend(chat_history)
+    print(chat_ml_obj)
+    response = retrieve_gpt_response(chat_ml_obj)
+    return response
 
-    if height is None or weight is None:
-    # Handle missing height or weight here...
-        recommendation = f"height or weight are none"
 
-    else:
-        bmi = calculate_bmi(height, weight)
-        recommendation = f"BMI = {bmi} Prompt = {prompt}  AI Response = {response}" # {response.choices[0].text.strip()}"
-    
-    return jsonify({"recommendation": recommendation, "bmi": bmi, "Blood": bloodData, "AI Response": response})
+def update_health_recommendations(user_input, chat_history, current_health_plan):
+    prompt = UPDATE_PROMPT.format(user_input=user_input, chat_history=chat_history, health_plan=current_health_plan)
+    response = retrieve_gpt_response([{"role": "system", "content": prompt}])
+    return response
+
+
+def generate_health_recommendation(user_input, open_ai_key=None):
+    prompt = create_prompt(user_input)
+    response = retrieve_gpt_response([{"role": "system", "content": prompt}])
+    print(response)
+    height = user_input.get('height')
+    weight = user_input.get('weight')
+    bloodData = user_input.get('bloodData')
+    bmi = calculate_bmi(height, weight)
+    recommendation = f"BMI = {bmi} Prompt = {prompt}  AI Response = {response}"
+
+    return {"recommendation": recommendation, "bmi": bmi, "Blood": bloodData, "AI Response": response}
+
+
+if __name__ == "__main__":
+    res = generate_health_recommendation({"age": 32, "sex": "Female", "height": 180, "weight": 80, "familyHistoryData": "heart disease", "exerciseData": "exercise twice a week", "bloodData": "more data from blood"})
+    print(res)

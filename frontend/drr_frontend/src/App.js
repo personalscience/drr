@@ -43,6 +43,7 @@ function App() {
     .then((data) => {
         console.log(data)
         addResponseMessage(data.text);
+        addResponseMessage(data.updated_recommendation);
     })
     .catch((error) => {
     console.log(error)
@@ -54,8 +55,8 @@ function App() {
       <Widget
           handleNewUserMessage={handleNewUserMessage}
           profileAvatar={logo}
-          title="My new awesome title"
-          subtitle="And my cool subtitle"
+          title="Ask Dr"
+          subtitle="Share your goals in your own words"
       />
       <AppProvider>
         <IntlProvider locale={locale} messages={messages[locale]}>

@@ -1,6 +1,8 @@
+from collections import defaultdict
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from healthr.recommendations import generate_health_recommendation, calculate_bmi
+from healthr.recommendations import generate_health_recommendation, calculate_bmi, update_health_recommendations, chat
 from healthr.bloodtest import find_biomarkers
 from healthr.siphox_calls import get_customer_report
 
@@ -23,6 +25,8 @@ os.environ['PROMPT_STRING'] = prompt_string
 
 app = Flask(__name__)
 CORS(app)
+
+memory = defaultdict(dict)
 
 @app.route('/api/user_info', methods=['POST'])
 def user_info():
@@ -50,14 +54,33 @@ def calculate_bmi_route():
 @app.route('/recommendation', methods=['POST'])
 def recommendation():
     user_input = request.json
+    memory["user_id"]["user_input"] = user_input
     recommendation = generate_health_recommendation(user_input, OPENAI_API_KEY)
-    return recommendation
+    memory["user_id"]["recommendation"] = recommendation
+    return jsonify(recommendation)
 
 @app.route("/webhooks/rest/webhook", methods=['POST'])
 def converse():
-    user_input = request.json
-    print(user_input)
-    return jsonify({"text": user_input["message"], "recipient_id": "user"})
+    request_obj = request.json
+    print(request_obj)
+    user_input = memory["user_id"].get("user_input")
+    chat_history = update_chat_history(request_obj["message"], "user")
+    recommendation = memory["user_id"].get("recommendation")
+    chat_response = chat(user_input, chat_history, recommendation)
+    chat_history = update_chat_history(chat_response, "assistant")
+    new_recommendation = update_health_recommendations(user_input, chat_history, recommendation)
+    memory["user_id"]["recommendation"] = new_recommendation
+
+    return jsonify({"text": chat_response, "recipient_id": "user", "updated_recommendation": new_recommendation})
+
+
+def update_chat_history(text, role):
+    chat_history = memory["user_id"].get("chat_history")
+    if chat_history is None:
+        chat_history = []
+    chat_history.append({"role": role, "content": text})
+    memory["user_id"]["chat_history"] = chat_history
+    return chat_history
 
 if __name__ == "__main__":
     host = os.getenv('FLASK_RUN_HOST', '127.0.0.1')
