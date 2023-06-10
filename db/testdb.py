@@ -1,3 +1,20 @@
+
+from fauna import fql
+from fauna.client import Client
+from fauna.encoding import QuerySuccess
+from fauna.errors import FaunaException
+
+client = Client(secret="fnAFGHl90aAARKgNxkdaLzHT16JKo607m7v83wPl")
+# The client defaults to using using the value stored FAUNA_SECRET for its secret.
+# Either set the FAUNA_SECRET env variable or retrieve it from a secret store.
+# As a best practice, don't store your secret directly in your code.
+
+try:
+    # create a collection
+    #q1 = fql('Collection.create({ name: "hackdata" })')
+    #client.query(q1)
+
+    sample = '''
 {
     "Summary": "The patient is a 60-year-old male in generally excellent health, who exercises regularly and maintains a balanced diet. He has no family history of major chronic diseases. The patient has been experiencing shortness of breath when climbing stairs, however, his stress ECG findings predict a low risk for future adverse cardiac events. Blood test results, while overall within normal ranges, show some fluctuation in homocysteine levels, a slightly increased LDL cholesterol, and slightly decreased ferritin levels. His morning cortisol levels also vary, indicating potential stress or circadian rhythm concerns.",
     
@@ -15,10 +32,16 @@
     {"Category": "Sugar", "Percentage": "<10% of total energy intake", "Reason": "To maintain good metabolic health and keep HbA1c within normal range.", "Suggested foods": ["Limit intake of sweetened beverages", "Cakes", "Pastries", "Candies"]}
     ]
 }
-    
-    
-    
-    
-    
-    
-    
+    '''
+
+    # create a document
+    sql = "hackdata.create({ username: 'Scout', hdata: " + sample + "})"
+    q2 = fql(sql)
+    res: QuerySuccess = client.query(q2)
+    doc = res.data
+    print(doc)
+    id = doc.id
+    print(id)
+except FaunaException as e:
+    # handle errors
+    print(e)
