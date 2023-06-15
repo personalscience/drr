@@ -5,6 +5,7 @@ from flask_cors import CORS
 from healthr.recommendations import generate_health_recommendation, calculate_bmi, update_health_recommendations, chat
 from healthr.bloodtest import find_biomarkers
 from healthr.siphox_calls import get_customer_report
+from healthr.prompts import *
 
 from dotenv import load_dotenv
 import os
@@ -14,14 +15,6 @@ load_dotenv()
 
 # Get the API key from the environment variable
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
-# Read the prompt string from the text file
-with open('./assets/promptstring2.txt', 'r') as file:
-    prompt_string = file.read()
-
-# Set the environment variable
-os.environ['PROMPT_STRING'] = prompt_string
-
 
 app = Flask(__name__)
 CORS(app)

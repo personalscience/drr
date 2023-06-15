@@ -10,23 +10,29 @@ from healthr.recommendations import generate_health_recommendation, calculate_bm
 @pytest.fixture(autouse=True)
 def setup_and_teardown():
     # Setup: set the environment variable
-    os.environ['PROMPT_STRING'] = "Generate health recommendation for a {sex} of age {age} with the following user input: "
-
+    os.environ['DEFAULT_PROMPT_TEMPLATE'] = "Generate health recommendation for a {sex} of age {age} with the following user input: "
+    os.environ['DEFAULT_PROMPT_SUFFIX'] = ""
     yield  # This is where the testing happens
 
     # Teardown: delete the environment variable
-    del os.environ['PROMPT_STRING']
+    del os.environ['DEFAULT_PROMPT_TEMPLATE']
+    del os.environ['DEFAULT_PROMPT_SUFFIX']
 
 
 def test_create_prompt():
     user_input = {
-        'bloodData': 'some blood data',
-        'familyHistoryData': 'some family history data',
-        'age': 30,
-        'sex': 'male',
-    }
+    'age': 30,
+    'sex': 'male',
+    'height': 180,
+    'weight': 75,
+    'bloodData': 'N/A',
+    'familyHistoryData': 'nothing serious',
+    'exerciseData': 'runs 5 miles daily',
+  }
+
     expected_prompt = "Generate health recommendation for a male of age 30 with the following user input: "
     actual_prompt = create_prompt(user_input)
+    print(f'\n{actual_prompt}\n')
     assert actual_prompt == expected_prompt
 
 

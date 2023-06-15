@@ -5,10 +5,10 @@ import openai
 import os
 import json
 from flask import jsonify
-from healthr.prompts import DEFAULT_PROMPT, UPDATE_PROMPT, CONVERSE_PROMPT
+from healthr.prompts import DEFAULT_PROMPT_TEMPLATE, DEFAULT_PROMPT_SUFFIX, UPDATE_PROMPT, CONVERSE_PROMPT
 from healthr.bloodtest import find_biomarkers
 from healthr.siphox_calls import get_customer_report
-
+from collections import defaultdict
 
 # calculate BMR (all units are metric)
 
@@ -49,10 +49,14 @@ def calculate_bmi(height, weight):
 # });
 
 def create_prompt(user_input):
+    # Assuming user_input is a dictionary with keys 'age', 'sex', etc.
+    DEFAULT_PROMPT_TEMPLATE = os.environ.get('DEFAULT_PROMPT_TEMPLATE')
+    DEFAULT_PROMPT_SUFFIX = os.environ.get('DEFAULT_PROMPT_SUFFIX')
 
-    # Assuming user_input is a dictionary with keys 'user1', 'user2', 'user3'
-    print(user_input)
-    prompt = DEFAULT_PROMPT.format(**user_input)
+    prompt = DEFAULT_PROMPT_TEMPLATE.format_map(defaultdict(lambda: 'unknown', user_input))
+    prompt += DEFAULT_PROMPT_SUFFIX
+
+    print(f'\nPrompt: {prompt}\n')
 
     return prompt
 
@@ -99,7 +103,6 @@ def update_health_recommendations(user_input, chat_history, current_health_plan)
 def generate_health_recommendation(user_input, open_ai_key=None):
     prompt = create_prompt(user_input)
     response = retrieve_gpt_response([{"role": "system", "content": prompt}])
-    print(response)
     height = user_input.get('height')
     weight = user_input.get('weight')
     bloodData = user_input.get('bloodData')
