@@ -24,9 +24,10 @@ function Recommendations({ recommendations }) {
 
   useEffect(() => {
     if (recommendations['AI Response']) {
-      setAIResponse(JSON.parse(recommendations['AI Response']));
+      setAIResponse(recommendations['AI Response']);
     }
   }, [recommendations]);
+  
 
   return (
     <div>
@@ -42,14 +43,10 @@ const Results = () => {
 
   useEffect(() => {
     if (sessionData?.recommendation) {
-      try {
-        const parsedResponse = JSON.parse(sessionData.recommendation['AI Response']);
-        setAIResponse(parsedResponse);
-      } catch (error) {
-        console.error("Invalid JSON string:", error);
-      }
+      setAIResponse(sessionData.recommendation['AI Response']);
     }
   }, [sessionData]);
+  
 
   if (!sessionData) {
     return (
@@ -80,7 +77,7 @@ const Results = () => {
       </div>
       <div style={specialResultsStyle} data-testid="special-results">
         <h2><FormattedMessage id="results.recommendations" /></h2>
-        <p>AI Recommendation: {aiResponse?.Summary}</p> {/* use parsed JSON here */}
+        <Recommendations recommendations={recommendation} /> 
       </div>
     </div>
   );

@@ -1,24 +1,52 @@
-{
-    "Summary": "The patient is a 60-year-old male in generally excellent health, who exercises regularly and maintains a balanced diet. He has no family history of major chronic diseases. The patient has been experiencing shortness of breath when climbing stairs, however, his stress ECG findings predict a low risk for future adverse cardiac events. Blood test results, while overall within normal ranges, show some fluctuation in homocysteine levels, a slightly increased LDL cholesterol, and slightly decreased ferritin levels. His morning cortisol levels also vary, indicating potential stress or circadian rhythm concerns.",
-    
-    "Blood": "The patient's blood test results show a few notable trends. Homocysteine levels peaked in March and then dropped significantly by November. Elevated homocysteine can be a risk factor for heart disease, but it is now within the normal range. Ferritin, a measure of iron storage in the body, appears to be consistently on the lower end of the normal range, indicating possible iron deficiency. LDL Cholesterol is higher than normal, which may increase risk for atherosclerosis. On the other hand, the ratio of triglycerides to HDL is consistently low, which is a good indicator of metabolic health. Morning cortisol is also fluctuating, being high in April, normal in March, and low in November. This could be due to changes in stress levels or sleep patterns.",
-    
-    "Genes": [
-    {"RS value": "NA", "Description": "Genetic information not available for this patient", "URL": "NA"}
-    ],
-    
-    "Diet": [
-    {"Category": "Fat", "Percentage": "30%", "Reason": "To maintain heart health and given the high LDL levels.", "Suggested foods": ["Avocados", "Nuts", "Fish high in Omega-3 like Salmon", "Olives"]},
-    {"Category": "Protein", "Percentage": "25%", "Reason": "To maintain muscle mass and function, especially considering patient's age.", "Suggested foods": ["Lean meats", "Eggs", "Legumes", "Quinoa", "Greek yogurt"]},
-    {"Category": "Carbohydrates", "Percentage": "40%", "Reason": "To sustain energy levels for physical activity. Preference given to complex carbohydrates to manage blood sugar levels.", "Suggested foods": ["Brown rice", "Sweet potatoes", "Whole grain bread", "Quinoa", "Fruits and Vegetables"]},
-    {"Category": "Fiber", "Percentage": "10-15 g per 1000 kcal", "Reason": "To aid digestion and promote heart health.", "Suggested foods": ["Berries", "Green leafy vegetables", "Chia seeds", "Flaxseeds", "Legumes"]},
-    {"Category": "Sugar", "Percentage": "<10% of total energy intake", "Reason": "To maintain good metabolic health and keep HbA1c within normal range.", "Suggested foods": ["Limit intake of sweetened beverages", "Cakes", "Pastries", "Candies"]}
-    ]
+{"Summary": "The patient appears to be in good overall health with regular exercise and a healthy blood pressure. However, there are some concerning blood test results, including high levels of LDL cholesterol and total cholesterol:HDL ratio, as well as low ferritin levels. Further monitoring and lifestyle adjustments may be necessary to improve these health markers.",
+
+"Blood": "The patient's APOB:APOA1 ratio is 1.14, which is indicative of a higher risk for cardiovascular disease. Additionally, the high levels of LDL cholesterol and total cholesterol:HDL ratio suggest a need for dietary adjustments and potentially medication. Ferritin levels are very low, indicating a possible iron deficiency that should be addressed with supplements or dietary changes. However, all other blood test results appear to be within normal ranges.",
+
+"Genes": [{
+         "SNP": "rs4988235",
+         "Description": "Lactose Intolerance",
+         "URL":"https://www.23andme.com/topics/health-traits/lactose-intolerance/"
+      },
+      {
+         "SNP": "rs9939609",
+         "Description": "Obesity",
+         "URL":"https://www.23andme.com/topics/health-traits/obesity/"
+      },
+      {
+         "SNP": "rs1801133",
+         "Description": "MTHFR Gene Mutation",
+         "URL":"https://www.23andme.com/topics/health-predispositions/mthfr/"
+      }
+   ],
+
+"Diet": [{
+         "Category": "Fat",
+         "Percent": "25-30%",
+         "Reason": "Based on the patient's high LDL cholesterol levels, limiting saturated fat intake and increasing consumption of healthy fats like omega-3s can help improve cholesterol levels.",
+         "Foods": "Fatty fish like salmon, avocado, nuts, and seeds"
+      },
+      {
+         "Category": "Protein",
+         "Percent": "20%",
+         "Reason": "The patient is already getting regular exercise, so maintaining adequate protein intake is important for muscle recovery and maintenance.",
+         "Foods": "Lean meats, eggs, nuts, and beans"
+      },
+      {
+         "Category": "Carbohydrate",
+         "Percent": "50%",
+         "Reason": "A moderate intake of carbohydrates can provide sustained energy for the patient's daily runs, while still allowing for enough caloric restriction to support weight management.",
+         "Foods": "Whole grains, fruits, vegetables, and legumes"
+      },
+      {
+         "Category": "Fiber",
+         "Amount": "25g per day",
+         "Reason": "Increased fiber intake can help improve cholesterol levels and support healthy digestion.",
+         "Foods": "Whole grains, fruits, vegetables, and legumes"
+      },
+      {
+         "Category": "Sugar",
+         "Amount": "Limit added sugars to less than 10% of daily caloric intake",
+         "Reason": "Reducing added sugar intake can help improve overall health markers and support weight management.",
+         "Foods": "Natural sources of sweetness like fruit or small amounts of honey or maple syrup as needed"
+      }]
 }
-    
-    
-    
-    
-    
-    
-    

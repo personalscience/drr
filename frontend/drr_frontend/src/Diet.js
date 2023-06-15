@@ -28,15 +28,12 @@ const Diet = () => {
   const [aiResponse, setAIResponse] = useState(null); // Add this line
 
   useEffect(() => {
-    if (sessionData?.recommendation) {
-      try {
-        const parsedResponse = JSON.parse(sessionData.recommendation['AI Response']);
-        setAIResponse(parsedResponse);
-      } catch (error) {
-        console.error("Invalid JSON string:", error);
-      }
+    if (sessionData?.recommendation?.["AI Response"]) {
+      setAIResponse(sessionData.recommendation["AI Response"]);
     }
   }, [sessionData]);
+  
+  
 
   if (!sessionData) {
     return (
@@ -69,13 +66,12 @@ const Diet = () => {
           </tr>
         </thead>
         <tbody>
-          
           {Array.isArray(aiResponse?.Diet) && aiResponse?.Diet?.map((item, index) => (
             <tr key={index}>
-              <td>{item.Category}</td>
-              <td>{item["Recommended Percentage"]}</td> {/* Update this line */}
-              <td>{item.Reason}</td>
-              <td>{item['Suggested Foods'].join(', ')}</td> {/* Update this line */}
+              <td>{item.Category.trim()}</td>
+              <td>{item["Percent"]}</td>
+              <td>{item.Reason.trim()}</td>
+              <td>{Array.isArray(item['Foods']) ? item['Foods'].map(food => food.trim()).join(', ') : item['Foods'].trim()}</td>
             </tr>
           ))}
         </tbody>

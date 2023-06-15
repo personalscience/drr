@@ -58,11 +58,17 @@ def create_prompt(user_input):
 
 
 def retrieve_gpt_response(chat_ml_input: List[Dict[str, str]]) -> str:
-    openai_response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=chat_ml_input
-    )
-    return openai_response.choices[0].message.content.strip()
+    # openai_response = openai.ChatCompletion.create(
+    #     model="gpt-3.5-turbo",
+    #     messages=chat_ml_input
+    # )
+    #  response = openai_response.choices[0].message.content.strip()
+
+    # Open and read the JSON file
+    with open(os.path.join(os.getcwd(), 'assets', 'sampleResponse.json'), 'r') as f:
+        response = json.load(f)
+        
+    return response
 
 
 def get_siphonix_report():
