@@ -79,7 +79,7 @@ const Input = () => {
   const handleSiphoxFill = async () => {
     try {
       const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
-      const response = await fetch(`${backendUrl}/siphox`, {
+      const response = await fetch(`${backendUrl}/api/siphox_blood_data`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,10 +92,7 @@ const Input = () => {
         throw new Error('Network response was not ok');
       }
 
-      const data = await response.json();
-
-      // Adjust this according to the structure of your API response
-      const bloodData = data.bloodData; 
+      const bloodData = await response.text();
 
       formik.setFieldValue('bloodData', bloodData);
     } catch (error) {
