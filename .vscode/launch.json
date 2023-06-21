@@ -2,6 +2,22 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Flask (Production)",
+            "type": "python",
+            "request": "launch",
+            "module": "gunicorn",
+            "python": "${workspaceFolder}/venv/bin/python",
+            "args": [
+              "backend.app:app",
+              "--bind=0.0.0.0:5005",
+              "--workers=4"
+            ],
+            "env": {
+                "OBJC_DISABLE_INITIALIZE_FORK_SAFETY": "YES",
+                "FLASK_APP": "backend/app.py"
+              },
+          },
+        {
             "name": "Python: Flask",
             "type": "python",
             "request": "launch",
@@ -14,6 +30,7 @@
             
             "args": [
                 "run",
+                "--host=0.0.0.0",
                 "--port=5005"
             ]
         },

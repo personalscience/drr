@@ -1,20 +1,14 @@
-# Use the official Node.js image as the base image
-FROM node:18 
-
-# Set the working directory
+# build stage
+FROM node:12-alpine as build-stage
 WORKDIR /app
-
-# Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
-
-# Install the required packages
 RUN npm install
-
-# Copy the rest of the frontend source code
 COPY . .
+RUN npm run build
 
-# Expose the port the frontend runs on
-EXPOSE 3000
-
-# Start the React app
-CMD ["npm", "start"]
+# production stage
+FROM nginx:stable-alpine as production-stage
+COPY --from=build-stage /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

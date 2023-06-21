@@ -1,22 +1,19 @@
-# docker-compose.yml
-
-version: '3.8'
+version: '2.2'
 services:
   backend:
     build: ./backend
     ports:
-      - "5001:5001"
-    volumes:
-      - ./backend:/backend
+      - "5005:5005"  # Assuming your backend runs on port 5005. Change as needed.
     environment:
       - FLASK_RUN_HOST=0.0.0.0
+      - FLASK_RUN_PORT=5005
     env_file:
       - .env
   frontend:
     env_file:
-      - ./frontend/drr_frontend/.env
+      - ./frontend/drr_frontend/.env.production  # Pointing to the production environment file
     build: ./frontend/drr_frontend
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:5005
     ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend/drr_frontend:/app
+      - "80:80"  # Your frontend will now be accessible on port 80

@@ -76,5 +76,7 @@ def update_chat_history(text, role):
     return chat_history
 
 if __name__ == "__main__":
-    host = os.getenv('FLASK_RUN_HOST', '127.0.0.1')
-    app.run(debug=True, host=host, port=5005)
+    host = os.getenv('FLASK_RUN_HOST', '0.0.0.0')
+    port = int(os.getenv('FLASK_RUN_PORT', '5005')) # Default port is 5005 if FLASK_RUN_PORT is not set 
+    app.run(debug=False, host=host, port=port)
+

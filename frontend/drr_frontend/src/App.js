@@ -34,7 +34,8 @@ function App() {
   }, []);
 
   const handleNewUserMessage = (newMessage) => {
-    fetch("http://localhost:5005/webhooks/rest/webhook", {
+    const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:5005";  // Fallback to localhost if the environment variable is not set
+    fetch(`${backendUrl}/webhooks/rest/webhook`, {
         method: "POST",
         body: JSON.stringify({message: newMessage}),
         headers: { "Content-type": "application/json; charset=UTF-8" }
