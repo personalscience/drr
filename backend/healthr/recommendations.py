@@ -5,9 +5,9 @@ import openai
 import os
 import json
 from flask import jsonify
-from healthr.prompts import DEFAULT_PROMPT_TEMPLATE, DEFAULT_PROMPT_SUFFIX, UPDATE_PROMPT, CONVERSE_PROMPT
-from healthr.bloodtest import find_biomarkers
-from healthr.siphox_calls import get_customer_report
+from .prompts import DEFAULT_PROMPT_TEMPLATE, DEFAULT_PROMPT_SUFFIX, UPDATE_PROMPT, CONVERSE_PROMPT
+from .bloodtest import find_biomarkers
+from .siphox_calls import get_customer_report
 from collections import defaultdict
 
 # calculate BMR (all units are metric)

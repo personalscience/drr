@@ -1,41 +1,48 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-
-        
+  "version": "2.0.0",
+  "tasks": [
     {
-    "label": "activate venv",
-    "type": "shell",
-    "command": "source ${workspaceFolder}/venv/bin/activate",
-    "problemMatcher": [],
-    "runOptions": {
+      "label": "activate venv",
+      "type": "shell",
+      "command": "source ${workspaceFolder}/venv/bin/activate",
+      "problemMatcher": [],
+      "runOptions": {
         "runOn": "folderOpen"
-        }
-    },
-    {
-    "label": "Run npm start",
-    "type": "shell",
-    "command": "npm start --prefix ${workspaceFolder}/frontend/drr_frontend",
-    "problemMatcher": [],
-    "runOptions": {
-    "runOn": "folderOpen"
-    }
-    },
-    {
-    "label": "Run python backend/app.py",
-    "type": "shell",
-    "command": "source ${workspaceFolder}/venv/bin/activate && python ${workspaceFolder}/backend/app.py",
-    "problemMatcher": [],
-    "runOptions": {
-    "runOn": "folderOpen"
-    }
-    },
-    {
-        "label": "Run tests",
-        "group": "test",
-        "type": "shell",
-        "command": "python -m pytest"
       }
+    },
+    {
+      "label": "Run npm start",
+      "type": "shell",
+      "command": "npm start --prefix ${workspaceFolder}/frontend/drr_frontend",
+      "problemMatcher": [],
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
+      "label": "Run python backend/app.py",
+      "type": "shell",
+      "command": "source ${workspaceFolder}/venv/bin/activate && python ${workspaceFolder}/backend/app.py",
+      "problemMatcher": [],
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
+      "label": "Run tests",
+      "group": "test",
+      "type": "shell",
+      "command": "python -m pytest"
+    },
+    {
+      "label": "Sync files",
+      "type": "shell",
+      "command": "rsync -avz --exclude '__pycache__' --exclude '*.pyc' --exclude '*.pyo' --exclude '*.pyd' --exclude '.DS_Store' --exclude '.Python' --exclude 'venv' --exclude 'node_modules' ${workspaceFolder} ${env:ALT_SERVER}",
+      "presentation": {
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    }
     
     ]
    }

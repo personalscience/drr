@@ -13,6 +13,7 @@
               "--workers=4"
             ],
             "env": {
+                "PYTHONPATH": "${workspaceFolder}/backend",
                 "OBJC_DISABLE_INITIALIZE_FORK_SAFETY": "YES",
                 "FLASK_APP": "backend/app.py"
               },
