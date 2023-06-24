@@ -1,6 +1,11 @@
 # healthr/recommendations.py
 from typing import List, Dict
 
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+
+
 import openai
 import os
 import json
@@ -56,7 +61,7 @@ def create_prompt(user_input):
     prompt = DEFAULT_PROMPT_TEMPLATE.format_map(defaultdict(lambda: 'unknown', user_input))
     prompt += DEFAULT_PROMPT_SUFFIX
 
-    print(f'\nPrompt: {prompt}\n')
+    logging.debug(f'\nPrompt: {prompt}\n')
 
     return prompt
 
@@ -68,9 +73,23 @@ def retrieve_gpt_response(chat_ml_input: List[Dict[str, str]]) -> str:
     # )
     #  response = openai_response.choices[0].message.content.strip()
 
-    # Open and read the JSON file
-    with open(os.path.join(os.getcwd(), 'assets', 'sampleResponse.json'), 'r') as f:
-        response = json.load(f)
+
+    asset_path = os.getenv('DRR_ASSET_PATH')
+    demo_mode = os.getenv('DRR_DEMO_MODE', 'true').lower()
+
+    if asset_path is None or demo_mode == 'true':
+        # load data from file
+        default_asset_path = os.getenv('DRR_ASSET_PATH', 'assets')
+        file_path = os.path.join(default_asset_path, 'sampleResponse.json')
+        with open(file_path, 'r') as f:
+            response = json.load(f)
+    else:
+        # make the API call
+        # openai_response = openai.ChatCompletion.create(
+        # model="gpt-3.5-turbo",
+        # messages=chat_ml_input)
+        logging.debug('...Calling OpenAI API...')
+        response ="nothing" # openai_response.choices[0].message.content.strip()
         
     return response
 
@@ -89,7 +108,7 @@ def get_siphonix_report():
 def chat(user_input, chat_history, current_health_plan):
     chat_ml_obj = [{"role": "system", "content": CONVERSE_PROMPT.format(health_plan=current_health_plan, user_input=user_input)}]
     chat_ml_obj.extend(chat_history)
-    print(chat_ml_obj)
+    logging.debug(chat_ml_obj)
     response = retrieve_gpt_response(chat_ml_obj)
     return response
 
@@ -114,4 +133,4 @@ def generate_health_recommendation(user_input, open_ai_key=None):
 
 if __name__ == "__main__":
     res = generate_health_recommendation({"age": 32, "sex": "Female", "height": 180, "weight": 80, "familyHistoryData": "heart disease", "exerciseData": "exercise twice a week", "bloodData": "more data from blood"})
-    print(res)
+    logging.debug(res)

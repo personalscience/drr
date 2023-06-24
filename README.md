@@ -14,9 +14,25 @@ This is an initial prototype for an app that does this:
 
 ![Specific dietary recommendations](docs/images/diet_recommendations_avoid.jpg)
 
+## Docker
+
+The easiest way to get started is to use [Docker](https://hub.docker.com/repositories/personalscience).  There are three Dockerfiles of interest:
+
+1. docker-compose.yml
+2. frontend/drr_frontend/Dockerfile
+3. backend/Dockerfile
+
+
+
+```sh
+docker-compose up --build -d
+```
+Look over the docker-compose.yml file and adjust as required.
+
+
 ## Install
 
-Create a project directory and download everything from this repo.
+To generate everything from sources, first create a project directory and download everything from this repo.
 
 
 ### Frontend
@@ -43,18 +59,33 @@ npm install
 
 You'll need two `.env` files with your secret environment variables.
 
-In the top directory:
+In the top directory (these settings should work "out of the box" -- it'll still run in demo mode if you don't change these credentials):
 ```yml
 23ANDME_EMAIL=youremail@whatever.com
 23ANDME_PASSWORD=password
 OPENAI_API_KEY=somelongapikey
+REACT_APP_BACKEND_URL=http://0.0.0.0:5005
+FLASK_RUN_HOST=0.0.0.0
+FLASK_RUN_PORT=5005
+DRR_DEMO_MODE=true
+DRR_ASSET_PATH=/path/to/sample/files
+
 ```
 
-In the frontend directory, you'll need to set whatever you want as the backend port
+In the frontend directory (frontend/drr_frontend/.env) , you'll need to set whatever you want as the backend port. In development I've generally been using `5005.
 
 ```yml
-REACT_APP_BACKEND_URL=http://127.0.0.1:5005
+REACT_APP_BACKEND_URL=http://localhost:5005
 ```
+
+In production, under a Docker environment, you'll want this to be
+```yml
+REACT_APP_BACKEND_URL=http://backend:5005
+```
+
+### VS Code
+
+If you use VS Code, the `./vscode` directory contains various launch and task settings you might find useful.
 
 
 ## Run

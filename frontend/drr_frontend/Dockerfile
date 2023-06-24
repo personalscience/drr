@@ -4,6 +4,11 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+# Pass in the environment variable at build time
+ARG REACT_APP_BACKEND_URL
+
+# Set the environment variable in the Docker image
+ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
 RUN npm run build
 
 # production stage

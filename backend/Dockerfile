@@ -1,17 +1,17 @@
 # Use the official Python image as the base image
 FROM python:3.10
 
-# Set the working directory
+# Set the working directory in the container to /app
 WORKDIR /app
 
-# Copy the requirements.txt to the working directory
-COPY requirements.txt ./
+# Add the current directory contents into the container at /app
+ADD . /app
 
-# Install the required packages
+# Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the backend source code
-COPY . .
+# Make port 5005 available to the world outside this container
+EXPOSE 5005
 
-# Start the Flask app
-CMD ["python", "app.py"]
+# Run app.py when the container launches
+CMD ["gunicorn", "-b", ":5005", "app:app"]

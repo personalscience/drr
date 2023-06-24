@@ -26,8 +26,15 @@
       "problemMatcher": [],
       "runOptions": {
         "runOn": "folderOpen"
+      },
+      "options": {
+        "env": {
+          "DRR_DEMO_MODE": "true",
+          "DRR_PATH": "/User/sprague/dev/psi/drr"
+        }
       }
-    },
+    }
+    ,    
     {
       "label": "Run tests",
       "group": "test",

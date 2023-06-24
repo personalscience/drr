@@ -7,13 +7,16 @@ services:
     environment:
       - FLASK_RUN_HOST=0.0.0.0
       - FLASK_RUN_PORT=5005
+      - DRR_ASSET_PATH=./assets
     env_file:
       - .env
   frontend:
-    env_file:
-      - ./frontend/drr_frontend/.env.production  # Pointing to the production environment file
-    build: ./frontend/drr_frontend
+    build: 
+      context: ./frontend/drr_frontend
+      args:
+        - REACT_APP_BACKEND_URL
     environment:
-      - REACT_APP_BACKEND_URL=http://backend:5005
+      - REACT_APP_BACKEND_URL
     ports:
       - "80:80"  # Your frontend will now be accessible on port 80
+
