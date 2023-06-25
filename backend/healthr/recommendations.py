@@ -1,10 +1,8 @@
 # healthr/recommendations.py
 from typing import List, Dict
 
-import logging
-
-logging.basicConfig(level=logging.DEBUG)
-
+from . import _drr_log
+# bloodtest.py
 
 import openai
 import os
@@ -61,7 +59,7 @@ def create_prompt(user_input):
     prompt = DEFAULT_PROMPT_TEMPLATE.format_map(defaultdict(lambda: 'unknown', user_input))
     prompt += DEFAULT_PROMPT_SUFFIX
 
-    logging.debug(f'\nPrompt: {prompt}\n')
+    _drr_log(f'\033[91m\nPrompt: {prompt}\n\033[0m', logger_name="create_prompt")
 
     return prompt
 
@@ -85,11 +83,11 @@ def retrieve_gpt_response(chat_ml_input: List[Dict[str, str]]) -> str:
             response = json.load(f)
     else:
         # make the API call
-        # openai_response = openai.ChatCompletion.create(
-        # model="gpt-3.5-turbo",
-        # messages=chat_ml_input)
-        logging.debug('...Calling OpenAI API...')
-        response ="nothing" # openai_response.choices[0].message.content.strip()
+        openai_response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=chat_ml_input)
+        _drr_log('...Calling OpenAI API...', logger_name="retrieve_gpt_response()")
+        response = openai_response.choices[0].message.content.strip()
         
     return response
 
@@ -108,7 +106,7 @@ def get_siphonix_report():
 def chat(user_input, chat_history, current_health_plan):
     chat_ml_obj = [{"role": "system", "content": CONVERSE_PROMPT.format(health_plan=current_health_plan, user_input=user_input)}]
     chat_ml_obj.extend(chat_history)
-    logging.debug(chat_ml_obj)
+    _drr_log(chat_ml_obj)
     response = retrieve_gpt_response(chat_ml_obj)
     return response
 
@@ -133,4 +131,4 @@ def generate_health_recommendation(user_input, open_ai_key=None):
 
 if __name__ == "__main__":
     res = generate_health_recommendation({"age": 32, "sex": "Female", "height": 180, "weight": 80, "familyHistoryData": "heart disease", "exerciseData": "exercise twice a week", "bloodData": "more data from blood"})
-    logging.debug(res)
+    _drr_log(res)

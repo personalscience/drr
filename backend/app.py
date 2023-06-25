@@ -44,7 +44,7 @@ def calculate_bmi_route():
     bmi = calculate_bmi(user_input["height"], user_input["weight"])
     return jsonify({"bmi": bmi})
 
-@app.route('/recommendation', methods=['POST'])
+@app.route('/api/recommendation', methods=['POST'])
 def recommendation():
     user_input = request.json
     memory["user_id"]["user_input"] = user_input
@@ -52,7 +52,7 @@ def recommendation():
     memory["user_id"]["recommendation"] = recommendation
     return jsonify(recommendation)
 
-@app.route("/webhooks/rest/webhook", methods=['POST'])
+@app.route("/api/webhooks/rest/webhook", methods=['POST'])
 def converse():
     request_obj = request.json
     print(request_obj)

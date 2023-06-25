@@ -59,7 +59,7 @@ const Input = () => {
         }
 
 
-        const recommendationResponse = await axios.post(`${backendUrl}/recommendation`, values);
+        const recommendationResponse = await axios.post(`${backendUrl}api/recommendation`, values);
 
         const recommendation = recommendationResponse.data;
         const message = `Received user information: Age: ${values.age}, Sex: ${values.sex},\n Height: ${values.height}, Weight: ${values.weight}`;
@@ -79,7 +79,7 @@ const Input = () => {
   const handleSiphoxFill = async () => {
     try {
       const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
-      const response = await fetch(`${backendUrl}/api/siphox_blood_data`, {
+      const response = await fetch(`${backendUrl}api/siphox_blood_data`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
