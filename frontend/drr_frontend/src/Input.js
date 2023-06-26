@@ -37,8 +37,9 @@ const Input = () => {
 
         let height = Number(values.height);
         let weight = Number(values.weight);
+        let age = Number(values.age);
 
-        let bloodData = String(values.bloodData)
+        // let bloodData = String(values.bloodData)
 
         // Define the unit system and its corresponding units
         const unitSystemConfig = {
@@ -58,8 +59,9 @@ const Input = () => {
           }
         }
 
+        const payload = {...values, age, height, weight}; // This replaces the 'height' and 'weight' values in 'values' with your converted numbers
 
-        const recommendationResponse = await axios.post(`${backendUrl}api/recommendation`, values);
+        const recommendationResponse = await axios.post(`${backendUrl}api/recommendation`, payload);
 
         const recommendation = recommendationResponse.data;
         const message = `Received user information: Age: ${values.age}, Sex: ${values.sex},\n Height: ${values.height}, Weight: ${values.weight}`;

@@ -13,6 +13,29 @@ from .bloodtest import find_biomarkers
 from .siphox_calls import get_customer_report
 from collections import defaultdict
 
+from pydantic import BaseModel
+
+# user_input is from formik
+# const validationSchema = yup.object({
+#   age: yup.number().required("Age is required"),
+#   sex: yup.string().required("Sex is required"),
+#   height: yup.number().required("Height is required"),
+#   weight: yup.number().required("Weight is required"),
+#   bloodData: yup.string().required("Blood Data is required"),
+#   familyHistoryData: yup.string().required("Family History Data is required"),
+#   exerciseData: yup.string().required("Exercise is required"),
+# });
+
+class RecommendationInput(BaseModel):
+    age: int
+    sex: str
+    height: float
+    weight: float
+    familyHistoryData: str
+    exerciseData: str
+    bloodData: str
+
+
 # calculate BMR (all units are metric)
 
 def calculate_bmr(weight, height, age, gender):
@@ -40,16 +63,7 @@ def calculate_bmi(height, weight):
     return round(bmi, 1)
 
 
-# user_input is from formik
-# const validationSchema = yup.object({
-#   age: yup.number().required("Age is required"),
-#   sex: yup.string().required("Sex is required"),
-#   height: yup.number().required("Height is required"),
-#   weight: yup.number().required("Weight is required"),
-#   bloodData: yup.string().required("Blood Data is required"),
-#   familyHistoryData: yup.string().required("Family History Data is required"),
-#   exerciseData: yup.string().required("Exercise is required"),
-# });
+
 
 def create_prompt(user_input):
     # Assuming user_input is a dictionary with keys 'age', 'sex', etc.
@@ -116,13 +130,14 @@ def update_health_recommendations(user_input, chat_history, current_health_plan)
     response = retrieve_gpt_response([{"role": "system", "content": prompt}])
     return response
 
+from typing import Dict, Any, Optional
 
-def generate_health_recommendation(user_input, open_ai_key=None):
+def generate_health_recommendation(user_input: RecommendationInput, open_ai_key: Optional[str] = None) -> Dict[str, Any]:
     prompt = create_prompt(user_input)
     response = retrieve_gpt_response([{"role": "system", "content": prompt}])
-    height = user_input.get('height')
-    weight = user_input.get('weight')
-    bloodData = user_input.get('bloodData')
+    height = user_input.height
+    weight = user_input.weight
+    bloodData = user_input.bloodData
     bmi = calculate_bmi(height, weight)
     recommendation = f"BMI = {bmi} Prompt = {prompt}  AI Response = {response}"
 
@@ -130,5 +145,14 @@ def generate_health_recommendation(user_input, open_ai_key=None):
 
 
 if __name__ == "__main__":
-    res = generate_health_recommendation({"age": 32, "sex": "Female", "height": 180, "weight": 80, "familyHistoryData": "heart disease", "exerciseData": "exercise twice a week", "bloodData": "more data from blood"})
+    user_input = RecommendationInput(
+        age=32, 
+        sex="Female", 
+        height=180, 
+        weight=80, 
+        familyHistoryData="heart disease", 
+        exerciseData="exercise twice a week", 
+        bloodData="more data from blood"
+    )
+    res = generate_health_recommendation(user_input)
     _drr_log(res)

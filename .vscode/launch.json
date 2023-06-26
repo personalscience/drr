@@ -2,22 +2,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Flask (Production)",
+            "name": "Python: FastAPI",
             "type": "python",
             "request": "launch",
-            "module": "gunicorn",
-            "python": "${workspaceFolder}/venv/bin/python",
+            "module": "uvicorn",
             "args": [
-              "backend.app:app",
-              "--bind=0.0.0.0:5005",
-              "--workers=4"
+                "backend.app:app",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "5005",
+                "--reload"
             ],
             "env": {
                 "PYTHONPATH": "${workspaceFolder}/backend",
                 "OBJC_DISABLE_INITIALIZE_FORK_SAFETY": "YES",
-                "FLASK_APP": "backend/app.py"
-              },
-          },
+                "DRR_DEMO_MODE": "true"
+            },
+        }
+        ,
         {
             "name": "Python: Flask",
             "type": "python",
@@ -57,7 +60,7 @@
     "compounds": [
         {
             "name": "Launch All",
-            "configurations": ["Python: Flask", "npm start"]
+            "configurations": ["Python: FastAPI", "npm start"]
         }
     ]
 }
