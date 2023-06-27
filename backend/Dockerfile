@@ -14,4 +14,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5005
 
 # Run app.py when the container launches
-CMD ["gunicorn", "-b", ":5005", "app:app"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "5005"]
+
