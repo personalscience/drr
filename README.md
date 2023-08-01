@@ -8,6 +8,8 @@ This is an initial prototype for an app that does this:
 5. Propose general guidelines for daily macronutrient percentages (protein, carbs, etc.) and calories.
 6. Propose additional tests that could reveal more in-depth information.
 
+![](docs/images/shortVideoSummary.gif)
+
 ## Sample Output
 
 ![A summary table personalized to this user](docs/images/patient_summary_genomics.jpg)
@@ -35,7 +37,7 @@ Look over the docker-compose.yml file and adjust as required.
 To generate everything from sources, first create a project directory and download everything from this repo.
 
 
-### Frontend
+### Backend
 
 You'll need Python
 
@@ -45,6 +47,8 @@ source venv/bin/activate
 pip install -r ./backend/requirements.txt
 ```
 
+and now it will run on https://localhost:5005  (or whatever you set in `.env`).
+
 
 ### Backend
 
@@ -53,6 +57,12 @@ Requires `npm 9.5` and `node 18`
 ```sh
 cd frontend/drr_frontend
 npm install
+```
+
+You may have some trouble with compatibility among the components.  If so, do this instead:
+
+```sh
+ npm install --legacy-peer-deps
 ```
 
 ### Environments

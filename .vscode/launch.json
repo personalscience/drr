@@ -6,6 +6,7 @@
             "type": "python",
             "request": "launch",
             "module": "uvicorn",
+            "python": "${workspaceFolder}/venv/bin/python",
             "args": [
                 "backend.app:app",
                 "--host",
