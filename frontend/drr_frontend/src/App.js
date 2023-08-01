@@ -2,7 +2,8 @@
 import React, { useEffect } from 'react';
 import './App.css';
 import { IntlProvider, FormattedMessage } from "react-intl";
-import { AppProvider } from './AppContext';
+import { AppContextProvider } from './AppContext';
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { messages } from './i18n';  // Import messages from i18n/index.js
@@ -59,7 +60,7 @@ function App() {
           title="Ask Dr"
           subtitle="Share your goals in your own words"
       />
-      <AppProvider>
+      <AppContextProvider>
         <IntlProvider locale={locale} messages={messages[locale]}>
           <Router>
 
@@ -74,7 +75,7 @@ function App() {
             <Footer />
           </Router>
         </IntlProvider>
-      </AppProvider>
+      </AppContextProvider>
     </div>
   );
 }

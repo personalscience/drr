@@ -2,16 +2,17 @@ import React, { useState, createContext } from 'react';
 
 export const AppContext = createContext();
 
-export function AppContextProvider({ children }) {
-  const [sessionData, setSessionData] = useState(null);
+export const AppContextProvider = ({ children }) => {
+  const [sessionData, setSessionData] = React.useState(null);
+  const [formValues, setFormValues] = useState(initialState.formValues);
+  const [unitSystem, setUnitSystem] = useState('metric');
 
   return (
-    <AppContext.Provider value={{ sessionData, setSessionData }}>
+    <AppContext.Provider value={{unitSystem, setUnitSystem, formValues, setFormValues, sessionData, setSessionData }}>
       {children}
     </AppContext.Provider>
   );
-}
-
+};
 
 // In AppContext.js
 const initialState = {

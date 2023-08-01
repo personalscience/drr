@@ -27,7 +27,11 @@ const Input = () => {
 
 
   const formik = useFormik({
-    initialValues: formValues,
+    initialValues: {
+      ...formValues,
+      heightUnit: unitSystem === 'metric' ? 'cm' : 'in',
+      weightUnit: unitSystem === 'metric' ? 'kg' : 'lbs'
+    },
     enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
